@@ -1,0 +1,54 @@
+.lisiting-filters {
+    margin: 20px;
+    background-color: #dddddd;
+    height: 100vh;
+}
+
+.filters {
+    display: flex;
+    gap: 20px;
+}
+
+.customer_type {
+    margin: 0px;
+    padding: 0px;
+    display: flex;
+    width: 20rem;
+    border: 2px solid black;
+}
+
+.customer_status {
+    margin: 0px;
+    padding: 0px;
+    display: flex;
+    width: 20rem;
+    border: 2px solid black;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td,
+th {
+    border-bottom: 1px solid #00000053;
+    border-top: 0px;
+    border-right: 0px;
+    border-left: 0px;
+    text-align: left;
+    font: 100;
+    padding: 8px;
+    color: #044C9D;
+}
+
+tr,
+td {
+    color: black;
+}
+
+tbody tr:hover {
+    background-color: #2886f2;
+    color: white;
+    cursor: pointer;
+}

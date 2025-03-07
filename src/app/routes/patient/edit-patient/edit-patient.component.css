@@ -1,0 +1,146 @@
+::ng-deep .mat-bottom-sheet-container {
+    padding: 0px !important;
+    max-height: 100vh !important;
+    overflow-y: auto !important;
+    border-radius: 0px;
+    width: 50rem;
+    background-color: white;
+}
+
+.header {
+    padding: 5px;
+    margin: 0px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #044C9D;
+    font-weight: bold;
+    color: #000000;
+}
+
+
+.title {
+    padding: 10px;
+    margin: 0px;
+    font-size: larger;
+    font-weight: bold;
+    color: white;
+    font-size: x-large;
+}
+
+.title1 {
+    font-size: medium;
+}
+
+.buttons {
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    font-weight: bold;
+    color: #333;
+}
+
+.submit {
+    padding: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 5px;
+    background-color: rgba(12, 161, 246, 1);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.close {
+    color: white;
+    cursor: pointer;
+    padding: 0px;
+    margin: 0px;
+}
+
+.form {
+    padding: 20px;
+}
+
+.error {
+    color: red;
+    font-size: small;
+}
+
+.input-label {
+    display: flex;
+    flex-direction: column;
+    padding-top: 10px;
+    align-items: start;
+    font-weight: 100;
+    color: rgba(4, 76, 157, 1);
+    font: 500;
+    font-size: 14px;
+    color: rgba(4, 76, 157, 1);
+    font-weight: 500;
+    padding-bottom: 4px;
+}
+
+.input-label input {
+    display: flex;
+    font-size: larger;
+    width: 10rem;
+    border: none;
+    outline: none;
+    padding: 5px;
+    font-size: 16px;
+    border-bottom: 2px solid rgba(7, 35, 245, 0.27);
+}
+
+.input-label input:hover {
+    border-bottom: 2px solid rgba(7, 35, 245, 0.188);
+}
+
+.name-mobile-dob {
+    display: flex;
+    gap: 60px;
+}
+
+.value {
+    color: #000000;
+}
+
+.email-gender {
+    display: flex;
+    gap: 60px;
+}
+
+.email input {
+    width: 15rem;
+}
+
+.address-line {
+    width: 90%;
+    border-bottom: 2px solid rgba(0, 0, 255, 0.33);
+    display: flex;
+    justify-content: space-between;
+    color: #000000;
+}
+
+.new-address {
+    color: #077bff;
+    font-style: normal;
+    font: 100;
+    font-family: 'Times New Roman', Times, serif;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.additional-info {
+    display: flex;
+    gap: 60px;
+}
+
+.default {
+    margin: 5px;
+    background-color: #044b9d40;
+    color: #044C9D;
+    border: #000000;
+}

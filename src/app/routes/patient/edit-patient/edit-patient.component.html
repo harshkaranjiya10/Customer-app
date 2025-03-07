@@ -1,0 +1,162 @@
+<div class="bottomsheet">
+  <div class="header">
+    <div class="title">
+      <div class="title2">Edit Patient Details</div>
+    </div>
+    <div class="buttons">
+      <div class="submit" (click)="onSubmit()">Add</div>
+      <div class="close" (click)="onClose()">Close</div>
+    </div>
+  </div>
+
+  <div class="form">
+    <form action="" [formGroup]="editPatientForm">
+      <div class="name-mobile-dob">
+        <div class="input-label">
+          <label for="">Name</label>
+          <div class="edit">
+            {{ Patient.firstname }} {{ Patient.lastname }}
+            <!-- <mat-icon>edit</mat-icon> -->
+          </div>
+        </div>
+        <div class="input-label">
+          <label for="">Mobile</label>
+          <div class="value">
+            {{ Patient.mobile }}
+          </div>
+        </div>
+        <div class="input-label">
+          <label for="">Date of Birth</label>
+          <div class="date-picker">
+            <input
+              matInput
+              [matDatepicker]="dob"
+              formControlName="dob"
+              (dateChange)="onDateOfBirth($event)"
+              [max]="today"
+            />
+            <mat-datepicker-toggle
+              matIconSuffix
+              [for]="dob"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #dob></mat-datepicker>
+          </div>
+        </div>
+      </div>
+      <div class="email-gender">
+        <div class="input-label email">
+          <label for="">Email</label>
+          <input
+            type="email"
+            formControlName="email"
+            (change)="onEmailValueChange($event)"
+          />
+          <div class="error" *ngIf="editPatientForm.controls.email.invalid">
+            Email Invalid
+          </div>
+        </div>
+        <div class="input-label">
+          <label for="">Gender</label>
+          <mat-radio-group
+            aria-label="Select an option"
+            formControlName="gender"
+          >
+            <mat-radio-button value="male">Male</mat-radio-button>
+            <mat-radio-button value="female">Female</mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
+      <div class="address">
+        <div class="input-label" *ngIf="Patient.addresses.length >= 1">
+          <label for=""
+            >Address
+            <span (click)="onMoreAddress()">
+              +
+              {{
+                Patient.addresses.length > 1 && !moreAddress
+                  ? "Show More"
+                  : "Show Less"
+              }}</span
+            >
+          </label>
+
+          <div class="address">
+            <div class="address-line" *ngIf="!moreAddress && Patient.address">
+              <div *ngIf="Patient.addresses">
+                {{ Patient.addresses[0].address ? Patient.address + " ," : "" }}
+                {{
+                  Patient.addresses[0].address_line2
+                    ? Patient.addresses[0].address_line2 + " ,"
+                    : ""
+                }}
+                {{
+                  Patient.addresses[0].city
+                    ? Patient.addresses[0].city + " ,"
+                    : ""
+                }}
+                {{
+                  Patient.addresses[0].state
+                    ? Patient.addresses[0].state + " ,"
+                    : ""
+                }}
+                {{
+                  Patient.addresses[0].zipcode
+                    ? Patient.addresses[0].zipcode + " ,"
+                    : ""
+                }}
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="moreAddress">
+            <div class="address-line" *ngFor="let Patient of Address">
+              <div>
+                {{ Patient.address ? Patient.address + " ," : "" }}
+                {{ Patient.address_line2 ? Patient.address_line2 + " ," : "" }}
+                {{ Patient.city ? Patient.city + " ," : "" }}
+                {{ Patient.state ? Patient.state + " ," : "" }}
+                {{ Patient.zipcode ? Patient.zipcode + " ," : "" }}
+              </div>
+              <mat-icon (click)="onAddressEditClick(Patient)">edit</mat-icon>
+              <div class="default" *ngIf="Patient.is_default === 'yes'">
+                Defualt
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h2 class="new-address" (click)="addNewAddressBottomsheet()">
+        + New Address
+      </h2>
+
+      <div class="additional-info">
+        <div class="input-label">
+          <label for="">Aadhar</label>
+          <input
+            formControlName="aadhar_number"
+            placeholder="XXXX XXXX XXXX"
+            (change)="onAadharValueChange($event)"
+          />
+          <div
+            class="error"
+            *ngIf="editPatientForm.controls.aadhar_number.invalid"
+          >
+            Aadhar Invalid
+          </div>
+        </div>
+        <div class="input-label">
+          <label for="">GSTIN</label>
+          <input formControlName="GSTIN" placeholder="GSTIN" />
+          <div class="error" *ngIf="editPatientForm.controls.GSTIN.invalid">
+            GSTIN Invalid
+          </div>
+        </div>
+        <div class="input-label">
+          <label for="">Discount (%)</label>
+          <input type="text" formControlName="discount_percentage" />
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

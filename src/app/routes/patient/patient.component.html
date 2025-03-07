@@ -1,0 +1,28 @@
+<div class="navbar">
+  <button (click)="onEditProfile()">Edit Profile</button>
+</div>
+
+<div>{{ Patient.firstname }} {{ Patient.lastname }}</div>
+
+<div>
+  {{ Patient.mobile }}
+</div>
+<div>
+  {{ Patient.email }}
+</div>
+<!-- <div>{{ Patient.addresses[0].address }}, {{ Patient.addresses[0].city }}</div> -->
+<div>{{ Patient.address }} {{ Patient.city }}</div>
+<div>
+  {{ Patient.aadhar_number ? Patient.aadhar_number : "-" }}
+</div>
+<div>
+  {{ Patient.discount_percentage ? Patient.discount_percentage : "-" }}
+</div>
+
+<div>
+   {{Patient.gender}} 
+</div>
+
+<div>
+   {{Patient.gstn_number}} 
+</div>

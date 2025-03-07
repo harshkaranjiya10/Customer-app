@@ -1,0 +1,110 @@
+::ng-deep .mat-bottom-sheet-container {
+    padding: 0px !important;
+    max-height: 100vh !important;
+    overflow-y: auto !important;
+    border-radius: 0px;
+    width: 50rem;
+    background-color: white;
+}
+
+.header {
+    padding: 5px;
+    margin: 0px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #044C9D;
+    font-weight: bold;
+    color: #000000;
+}
+
+
+.title {
+    padding: 10px;
+    margin: 0px;
+    font-size: larger;
+    font-weight: bold;
+    color: white;
+    font-size: x-large;
+}
+
+.title1 {
+    font-size: medium;
+}
+
+.buttons {
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    font-weight: bold;
+    color: #333;
+}
+
+.submit {
+    padding: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 5px;
+    background-color: rgba(12, 161, 246, 1);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.close {
+    color: white;
+    cursor: pointer;
+    padding: 0px;
+    margin: 0px;
+}
+
+.form {
+    padding: 10px;
+}
+
+.error {
+    color: red;
+    font-size: small;
+}
+
+.input-label {
+    display: flex;
+    flex-direction: column;
+    padding-top: 10px;
+    align-items: start;
+    font-weight: 100;
+    color: rgba(4, 76, 157, 1);
+    font: 500;
+    font-size: 14px;
+    color: rgba(4, 76, 157, 1);
+    font-weight: 500;
+    padding-bottom: 4px;
+}
+
+.input-label input {
+    display: flex;
+    font-size: larger;
+    width: 10rem;
+    border: none;
+    outline: none;
+    padding: 5px;
+    font-size: 16px;
+    border-bottom: 2px solid rgba(7, 35, 245, 0.27);
+}
+
+.input-label-address input {
+    width: 98%;
+    margin-top: 10px;
+}
+
+.city-pincode {
+    display: flex;
+    gap: 20px;
+}
+
+.name {
+    display: flex;
+    gap: 20px;
+}

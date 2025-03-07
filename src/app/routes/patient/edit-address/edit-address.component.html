@@ -1,0 +1,75 @@
+<div class="bottomsheet">
+  <div class="header">
+    <div class="title">
+      <!-- <div class="title1">Edit Patient Details</div> -->
+      <div class="title2">Edit Address</div>
+    </div>
+    <div class="buttons">
+      <div class="submit" (click)="onSubmit()">Add</div>
+      <div class="close" (click)="onClose()">Close</div>
+    </div>
+  </div>
+  <div class="form back">
+    <form action=""  [formGroup]="editAddressForm">
+      <div class="name">
+        <div class="input-label">
+          <label for="">Firstname</label>
+          <input
+            type="text"
+            formControlName="first_name"
+            placeholder="Firstname"
+          />
+        </div>
+        <div class="input-label">
+          <label for="">lastname</label>
+          <input
+            type="text"
+            formControlName="last_name"
+            placeholder="lastname"
+          />
+        </div>
+      </div>
+      <div class="address-line">
+        <div class="input-label input-label-address">
+          <label for="">Address</label>
+          <input
+            type="text"
+            formControlName="address"
+            placeholder="address_line1"
+          />
+          <input
+            type="text"
+            formControlName="address_line2"
+            placeholder="address_line2"
+          />
+        </div>
+      </div>
+      <div class="city-pincode">
+        <div class="city">
+          <div class="input-label">
+            <label for="">City</label>
+            <input formControlName="city" placeholder="City" />
+            <!-- <div
+              class="error"
+              *ngIf="submmited && addPatientForm.controls.city.errors?.['required']"
+            >
+              City Required
+            </div> -->
+          </div>
+        </div>
+        <div class="pincode">
+          <div class="input-label">
+            <label for="">Pincode</label>
+            <input formControlName="zipcode" placeholder="Pincode" />
+            <!-- <div
+              class="error"
+              *ngIf="submmited && addPatientForm.controls.zipcode.errors?.['required']"
+            >
+              Pincode Required
+            </div> -->
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,146 @@
+<!-- <p>customers works!</p>
+<div *ngFor="let item of Customers">
+  <div>{{ item.firstname }} {{ item.lastname }}</div>
+</div> -->
+
+<button (click)="onAdd()">Add Customer</button>
+<div class="lisiting-filters">
+  <div class="filters">
+    <div class="date">
+      <div class="date-filter">
+        <div>
+          <input
+            type="text"
+            ngxDaterangepickerMd
+            [(ngModel)]="selectedRange"
+            [ranges]="ranges"
+            placeholder="Choose date"
+            (ngModelChange)="onDateChange($event)"
+            [showCustomRangeLabel]="true"
+            [locale]="{ format: 'DD/MM/YYYY' }"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="search">
+      <input
+        type="search"
+        id="searchstring"
+        name="searchstring"
+        #searchValue
+        placeholder="Name/Mobile/Address/Tag"
+        minlength="3"
+      />
+      <input type="submit" (click)="onSubmitSearch(searchValue.value)" />
+      <button type="submit" (click)="onCloseSearch(searchValue.value)">
+        close
+      </button>
+    </div>
+    <div class="customer_type">
+      <mat-select
+        [(ngModel)]="selectedCustomerType"
+        (ngModelChange)="(selectedCustomerType)"
+        name="selectedCustomerType"
+        placeholder="Customer Type"
+        multiple
+        (selectionChange)="onCustomerTypeChange($event)"
+      >
+        <mat-option
+          *ngFor="let customer of customers_type"
+          [value]="customer.value"
+        >
+          {{ customer.viewValue }}
+        </mat-option>
+      </mat-select>
+    </div>
+    <div class="customer_status">
+      <mat-select
+        [(ngModel)]="status"
+        name="selectedCustomerStatus"
+        placeholder="Customer Status"
+        (selectionChange)="onCustomerTypeStatus($event)"
+      >
+        <mat-option value="all">All</mat-option>
+        <mat-option value="blocked">Blocked</mat-option>
+        <mat-option value="unblocked">Unblocked</mat-option>
+      </mat-select>
+    </div>
+
+    <div class="applyFilter">
+      <button (click)="onApplyFilter()">Apply filters</button>
+    </div>
+  </div>
+  <div class="listing">
+    <table>
+      <tr>
+        <th>Registration Date/Time</th>
+        <th (click)="sortTable('patient_name')">
+          Customer Name
+          <i
+            class="fa-solid"
+            [ngClass]="{
+              'fa-arrow-down-a-z':
+                sortColumn === 'patient_name' && sortOrder === 'asc',
+              'fa-arrow-down-z-a':
+                sortColumn === 'patient_name' && sortOrder === 'desc'
+            }"
+          ></i>
+        </th>
+        <th>Mobile No.</th>
+        <th (click)="sortTable('last_order_date')">
+          Last Order Date/Time
+          <i
+            class="fa-solid"
+            [ngClass]="{
+              'fa-arrow-down-a-z':
+                sortColumn === 'last_order_date' && sortOrder === 'asc',
+              'fa-arrow-down-z-a':
+                sortColumn === 'last_order_date' && sortOrder === 'desc'
+            }"
+          ></i>
+        </th>
+
+        <th (click)="sortTable('due_orders_amount')">
+          Total Balance
+          <i
+            class="fa-solid"
+            [ngClass]="{
+              'fa-arrow-down-a-z':
+                sortColumn === 'due_orders_amount' && sortOrder === 'asc',
+              'fa-arrow-down-z-a':
+                sortColumn === 'due_orders_amount' && sortOrder === 'desc'
+            }"
+          ></i>
+        </th>
+        <th>Invite</th>
+      </tr>
+
+      <tbody>
+        <tr *ngFor="let customer of Customers" (click)="onUserSelect(customer)">
+          <td>{{ customer.registration_date | date : "dd-MM-yy hh:mm a" }}</td>
+          <td>{{ customer.patient_name }}</td>
+          <td>{{ customer.mobile }}</td>
+          <td>
+            {{ customer.last_order_date ? customer.last_order_date : "-" }}
+          </td>
+          <td>
+            {{ customer.balance | currency : "INR" }}
+          </td>
+          <td>{{ customer.invite ? customer.invite : "-" }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <!-- <div>
+    No data
+    <img
+      src="https://d1tu4pmhr82np8.cloudfront.net/storage/extra/evitalrx/guide-line-assets/empty_image.svg"
+      alt=""
+    />
+  </div> -->
+
+  <div class="page">
+    <button (click)="prev()">Prev</button>
+    <button (click)="next()">Next</button>
+  </div>
+</div>
