@@ -2,8 +2,9 @@
 <div *ngFor="let item of Customers">
   <div>{{ item.firstname }} {{ item.lastname }}</div>
 </div> -->
-
-<button (click)="onAdd()">Add Customer</button>
+<div class="add-customer">
+  <button (click)="onAdd()">Add Customer</button>
+</div>
 <div class="lisiting-filters">
   <div class="filters">
     <div class="date">
@@ -79,24 +80,28 @@
           <i
             class="fa-solid"
             [ngClass]="{
-              'fa-arrow-down-a-z':
-                sortColumn === 'patient_name' && sortOrder === 'asc',
-              'fa-arrow-down-z-a':
-                sortColumn === 'patient_name' && sortOrder === 'desc'
+              'fa-arrow-down-a-z': patientNameSortOrder === 'asc',
+              'fa-arrow-down-z-a': patientNameSortOrder === 'desc'
             }"
+            [style.opacity]="
+              patientNameSortColumn === 'patient_name' ? '1' : '0.5'
+            "
           ></i>
         </th>
+
         <th>Mobile No.</th>
+
         <th (click)="sortTable('last_order_date')">
           Last Order Date/Time
           <i
             class="fa-solid"
             [ngClass]="{
-              'fa-arrow-down-a-z':
-                sortColumn === 'last_order_date' && sortOrder === 'asc',
-              'fa-arrow-down-z-a':
-                sortColumn === 'last_order_date' && sortOrder === 'desc'
+              'fa-arrow-down-1-9': lastOrderDateSortOrder === 'asc',
+              'fa-arrow-down-9-0': lastOrderDateSortOrder === 'desc'
             }"
+            [style.opacity]="
+              lastOrderDateSortColumn === 'last_order_date' ? '1' : '0.5'
+            "
           ></i>
         </th>
 
@@ -105,11 +110,12 @@
           <i
             class="fa-solid"
             [ngClass]="{
-              'fa-arrow-down-a-z':
-                sortColumn === 'due_orders_amount' && sortOrder === 'asc',
-              'fa-arrow-down-z-a':
-                sortColumn === 'due_orders_amount' && sortOrder === 'desc'
+              'fa-arrow-down-1-9': dueOrdersAmountSortOrder === 'asc',
+              'fa-arrow-down-9-0': dueOrdersAmountSortOrder === 'desc'
             }"
+            [style.opacity]="
+              dueOrdersAmountSortColumn === 'due_orders_amount' ? '1' : '0.5'
+            "
           ></i>
         </th>
         <th>Invite</th>
@@ -126,7 +132,7 @@
           <td>
             {{ customer.balance | currency : "INR" }}
           </td>
-          <td>{{ customer.invite ? customer.invite : "-" }}</td>
+          <!-- <td>{{ customer ? customer : "-" }}</td> -->
         </tr>
       </tbody>
     </table>
@@ -140,7 +146,8 @@
   </div> -->
 
   <div class="page">
-    <button (click)="prev()">Prev</button>
-    <button (click)="next()">Next</button>
+    <button *ngIf="page > 1" (click)="prev()">Prev</button>
+    <div>Page: {{ page }}</div>
+    <button *ngIf="Customers.length === 20" (click)="next()">Next</button>
   </div>
 </div>

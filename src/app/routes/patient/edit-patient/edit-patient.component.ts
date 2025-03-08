@@ -51,6 +51,7 @@ import { ActivatedRoute } from '@angular/router';
 export class EditPatientComponent {
   Patient!: Patient;
   Address: Address[] = [];
+  defaultAdress!: Address;
   editPatientForm = new FormGroup({
     first_name: new FormControl(''),
     last_name: new FormControl(''),
@@ -60,7 +61,7 @@ export class EditPatientComponent {
     gender: new FormControl(''),
     aadhar_number: new FormControl(''),
     discount_percentage: new FormControl(),
-    GSTIN: new FormControl(''),
+    gstn_number: new FormControl(''),
   });
   today = new Date();
 
@@ -76,6 +77,9 @@ export class EditPatientComponent {
     this.Patient = data;
     console.log(this.Patient);
     this.Address = this.Patient.addresses;
+    this.Address.forEach((a) => {
+      a.is_default === 'yes' ? (this.defaultAdress = a) : this.defaultAdress;
+    });
   }
 
   ngOnInit(): void {
@@ -93,7 +97,12 @@ export class EditPatientComponent {
     this.editPatientForm.controls.aadhar_number.setValue(
       this.data.aadhar_number
     );
-    this.editPatientForm.controls.GSTIN.setValue(this.data.GSTIN);
+    this.editPatientForm.controls.gstn_number.setValue(this.data.gstn_number);
+    if (this.Patient.dob === '1900-01-01' || this.Patient.dob === '') {
+      this.editPatientForm.controls.dob.setValue('');
+    } else {
+      this.editPatientForm.controls.dob.setValue(this.data.dob);
+    }
     //this.emailValidators();
     //this.AadharValidators();
   }
@@ -144,7 +153,11 @@ export class EditPatientComponent {
     const emailControl = this.editPatientForm.get('email');
 
     if (emailControl) {
-      emailControl.setValidators([Validators.required, Validators.email]);
+      emailControl.setValidators([
+        Validators.required,
+        Validators.email,
+        Validators.pattern(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/),
+      ]);
       emailControl.updateValueAndValidity();
       console.log('validators updated');
     }
@@ -163,16 +176,6 @@ export class EditPatientComponent {
       aadhar_numberControl?.updateValueAndValidity();
       console.log('validators updated');
     }
-
-    /* this.editPatientForm
-      .get('aadhar_number')
-      ?.setValidators([
-        Validators.required,
-        Validators.minLength(12),
-        Validators.maxLength(12),
-      ]);
-
-    this.editPatientForm.get('aadhar_number')?.updateValueAndValidity(); */
   }
   onAadharValueChange(event: any) {
     console.log(event);
@@ -184,6 +187,36 @@ export class EditPatientComponent {
     }
 
     this.editPatientForm.get('aadhar_number')?.updateValueAndValidity();
+  }
+
+  onGSTINValueChange(event: any) {
+    console.log(event);
+    console.log('GSTIN Value change');
+
+    this.gstinValidators();
+    if (event.target.value === '') {
+      this.editPatientForm.get('gstn_number')?.clearValidators();
+      this.editPatientForm.get('gstn_number')?.updateValueAndValidity();
+    }
+
+    this.editPatientForm.get('gstn_number')?.updateValueAndValidity();
+  }
+  gstinValidators() {
+    const GSTINControl = this.editPatientForm.get('gstn_number');
+    if (GSTINControl?.value === '') {
+      this.editPatientForm.get('gstn_number')?.clearValidators();
+      this.editPatientForm.get('gstn_number')?.updateValueAndValidity();
+    } else {
+      GSTINControl?.setValidators([
+        Validators.required,
+        Validators.minLength(15),
+        Validators.pattern(
+          /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/
+        ),
+      ]);
+      GSTINControl?.updateValueAndValidity();
+      console.log('validators updated');
+    }
   }
 
   addNewAddressBottomsheet() {
@@ -199,9 +232,12 @@ export class EditPatientComponent {
       .subscribe((res) => {
         console.log(res);
 
-        /* if (res.back) {
-          this._bottomSheet.open(EditPatientComponent);
-        } */
+        if (res.back) {
+          this._bottomSheet.open(EditPatientComponent, { data: this.Patient });
+        }
+        const event = new CustomEvent('addressUpdated');
+
+        window.dispatchEvent(event);
       });
   }
   moreAddress = false;
@@ -231,7 +267,14 @@ export class EditPatientComponent {
           this.customers.getPatient(obj).subscribe((res) => {
             this.Patient = res.data;
           });
+          this._bottomSheet.dismiss({ edited: true });
+          console.log('Edited is true');
+          const event = new CustomEvent('addressUpdated');
           //this.getPatientDetails();
+
+          window.dispatchEvent(event);
+        } else if (res.back) {
+          this._bottomSheet.open(EditPatientComponent, { data: this.Patient });
         }
       });
   }

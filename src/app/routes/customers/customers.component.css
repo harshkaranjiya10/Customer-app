@@ -52,3 +52,43 @@ tbody tr:hover {
     color: white;
     cursor: pointer;
 }
+
+i.fa-solid {
+    opacity: 50%;
+}
+i.fa-arrow-down-a-z {
+    opacity: 100%;
+}
+
+.add-customer button {
+    margin-top: 10px;
+    border: none;
+    color: white;
+    background-color: #0ca1f6;
+    padding: 10px;
+    font-size: large;
+}
+
+.page {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 20px;
+    padding-top: 20px;
+    gap: 20px;
+  }
+  
+  .page button {
+    background-color: rgba(12, 161, 246, 1);
+    border-radius: 2px;
+    padding-left: 20px;
+    padding-right: 20px;
+    height: 30px;
+    text-align: center;
+    font-size: 14px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    border: transparent;
+  }

@@ -6,11 +6,16 @@
     </div>
     <div class="buttons">
       <div class="submit" (click)="onSubmit()">Add</div>
-      <div class="close" (click)="onClose()">Close</div>
+      <div class="close" (click)="onClose()">
+        <i class="fa fa-times" aria-hidden="true"></i>
+      </div>
     </div>
   </div>
 
   <div class="form">
+    <div class="error" *ngIf="addPatientForm.errors">
+        Invalid Form
+    </div>
     <form [formGroup]="addPatientForm">
       <div class="mobile-mail">
         <div class="input-label">
@@ -41,7 +46,7 @@
           <input
             type="email"
             formControlName="email"
-            (change)="onEmailValueChange()"
+            (change)="onEmailValueChange($event)"
           />
           <div class="error" *ngIf="addPatientForm.controls.email.errors">
             Email is Invalid
@@ -153,13 +158,17 @@
         <div class="gst-pan">
           <div class="input-label">
             <label for="">GSTIN / PAN</label>
-            <input formControlName="GSTIN_PAN" placeholder="GSTIN / PAN" />
-          </div>
-          <div
-            class="error"
-            *ngIf="submmited && addPatientForm.controls.GSTIN_PAN.errors?.['pattern']"
-          >
-            Pincode Pattern
+            <input
+              formControlName="gstn_number"
+              placeholder="GSTIN / PAN"
+              (change)="onGSTINValueChange($event)"
+            />
+            <div
+              class="error"
+              *ngIf="submmited && addPatientForm.controls.gstn_number.errors?.['pattern']"
+            >
+              GSTIN Pattern
+            </div>
           </div>
         </div>
       </div>

@@ -1,8 +1,59 @@
-<div class="navbar">
-  <button (click)="onEditProfile()">Edit Profile</button>
+<div class="main">
+  <div class="navbar">
+    <button (click)="onEditProfile()">Edit Profile</button>
+  </div>
+  <div class="breadcrumbs">
+    <!-- <div class="">Customer</div> -->
+    <div class="customer-name">
+      {{ Patient.firstname }} {{ Patient.lastname }}
+    </div>
+  </div>
+  <div class="hero">
+    <div class="first-row">
+      <div class="mobile">
+        <label for="">Mobile</label>
+        <div>
+          {{ Patient.mobile }}
+        </div>
+      </div>
+      <div class="email">
+        <label for="">Email</label>
+        <div>
+          {{ Patient.email ? Patient.email : "-" }}
+        </div>
+      </div>
+      <div class="address">
+        <label for="">Address</label>
+        <div>
+          <div *ngIf="Patient.address; else elseBlock">
+            {{ Patient.address }}, {{ Patient.city }}, {{ Patient.zipcode }}
+          </div>
+          <ng-template #elseBlock>
+            -
+          </ng-template>
+        </div>
+      </div>
+      <!-- <div>View more</div> -->
+    </div>
+
+    <div class="second-row">
+      <div class="aadhar_number">
+        <label for="">Aadhar Number</label>
+        <div>
+          {{ Patient.aadhar_number ? Patient.aadhar_number : "-" }}
+        </div>
+      </div>
+      <div class="default_discount">
+        <label for="">Discount</label>
+        <div>
+          {{ Patient.discount_percentage }}
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
-<div>{{ Patient.firstname }} {{ Patient.lastname }}</div>
+<!-- <div>{{ Patient.firstname }} {{ Patient.lastname }}</div>
 
 <div>
   {{ Patient.mobile }}
@@ -10,7 +61,7 @@
 <div>
   {{ Patient.email }}
 </div>
-<!-- <div>{{ Patient.addresses[0].address }}, {{ Patient.addresses[0].city }}</div> -->
+<div>{{ Patient.addresses[0].address }}, {{ Patient.addresses[0].city }}</div>
 <div>{{ Patient.address }} {{ Patient.city }}</div>
 <div>
   {{ Patient.aadhar_number ? Patient.aadhar_number : "-" }}
@@ -20,9 +71,10 @@
 </div>
 
 <div>
-   {{Patient.gender}} 
+  {{ Patient.gender }}
 </div>
 
 <div>
-   {{Patient.gstn_number}} 
+  {{ Patient.gstn_number }}
 </div>
+ -->

@@ -9,8 +9,10 @@
       <div class="close" (click)="onClose()">Close</div>
     </div>
   </div>
+
+  <div class="back_button" (click)="onBack()"><i class="fa fa-chevron-left" aria-hidden="true"></i> Back</div>
   <div class="form back">
-    <form action=""  [formGroup]="editAddressForm">
+    <form action="" [formGroup]="editAddressForm">
       <div class="name">
         <div class="input-label">
           <label for="">Firstname</label>
@@ -36,6 +38,7 @@
             type="text"
             formControlName="address"
             placeholder="address_line1"
+            (change)="onAddressValueChange($event)"
           />
           <input
             type="text"
@@ -49,24 +52,24 @@
           <div class="input-label">
             <label for="">City</label>
             <input formControlName="city" placeholder="City" />
-            <!-- <div
+            <div
               class="error"
-              *ngIf="submmited && addPatientForm.controls.city.errors?.['required']"
+              *ngIf="submmited && editAddressForm.controls.city.errors?.['required']"
             >
               City Required
-            </div> -->
+            </div>
           </div>
         </div>
         <div class="pincode">
           <div class="input-label">
             <label for="">Pincode</label>
             <input formControlName="zipcode" placeholder="Pincode" />
-            <!-- <div
+            <div
               class="error"
-              *ngIf="submmited && addPatientForm.controls.zipcode.errors?.['required']"
+              *ngIf="submmited && editAddressForm.controls.zipcode.errors?.['required']"
             >
               Pincode Required
-            </div> -->
+            </div>
           </div>
         </div>
       </div>

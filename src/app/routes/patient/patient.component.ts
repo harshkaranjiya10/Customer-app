@@ -6,11 +6,12 @@ import {
   MatBottomSheetModule,
 } from '@angular/material/bottom-sheet';
 import { EditPatientComponent } from './edit-patient/edit-patient.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-patient',
   standalone: true,
-  imports: [MatBottomSheetModule],
+  imports: [MatBottomSheetModule,CommonModule],
   templateUrl: './patient.component.html',
   styleUrl: './patient.component.css',
 })
@@ -24,6 +25,22 @@ export class PatientComponent {
 
   ngOnInit() {
     this.getPatientDetails();
+    this._bottomSheet._openedBottomSheetRef
+      ?.afterDismissed()
+      .subscribe((res) => {
+        console.log(res);
+      });
+    this._bottomSheet._openedBottomSheetRef
+      ?.afterDismissed()
+      .subscribe((res) => {
+        if (res.edited) {
+          this.getPatientDetails();
+        }
+        console.log(res);
+      });
+    window.addEventListener('addressUpdated', () => {
+      this.getPatientDetails();
+    });
   }
 
   getPatientDetails() {

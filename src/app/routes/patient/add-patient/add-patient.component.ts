@@ -46,7 +46,7 @@ export class AddPatientComponent {
     address_line2: new FormControl(''),
     city: new FormControl(''),
     zipcode: new FormControl(''),
-    GSTIN_PAN: new FormControl(''),
+    gstn_number: new FormControl(''),
   });
 
   today = new Date();
@@ -63,32 +63,29 @@ export class AddPatientComponent {
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
-
-    this.addressValidations();
+    //this.addressValidations();
     //this.emailValidators();
   }
 
   addressValidations() {
-    this.addPatientForm
-      .get('address')
-      ?.valueChanges.subscribe((value) => {
-        if (value) {
-          this.addPatientForm
-            .get('zipcode')
-            ?.setValidators([
-              Validators.required,
-              Validators.pattern('^[0-9]{6}$'),
-            ]);
-          this.addPatientForm.get('city')?.setValidators([Validators.required]);
-        } else {
-          this.addPatientForm.get('zipcode')?.clearValidators();
-          this.addPatientForm.get('city')?.clearValidators();
-        }
-        this.addPatientForm.get('zipcode')?.updateValueAndValidity();
-        this.addPatientForm.get('city')?.updateValueAndValidity();
-      });
+    this.addPatientForm.get('address')?.valueChanges.subscribe((value) => {
+      if (value) {
+        this.addPatientForm
+          .get('zipcode')
+          ?.setValidators([
+            Validators.required,
+            Validators.pattern('^[0-9]{6}$'),
+          ]);
+        this.addPatientForm.get('city')?.setValidators([Validators.required]);
+      } else {
+        this.addPatientForm.get('zipcode')?.clearValidators();
+        this.addPatientForm.get('city')?.clearValidators();
+      }
+      this.addPatientForm.get('zipcode')?.updateValueAndValidity();
+      this.addPatientForm.get('city')?.updateValueAndValidity();
+    });
   }
-  emailValidators() {
+  /* emailValidators() {
     this.addPatientForm.get('email')?.valueChanges.subscribe((value) => {
       const emailControl = this.addPatientForm.get('email');
 
@@ -99,6 +96,35 @@ export class AddPatientComponent {
       }
       emailControl?.updateValueAndValidity();
     });
+  } */
+
+  onGSTINValueChange(event: any) {
+    console.log(event);
+    console.log('GSTIN Value change');
+
+    this.gstinValidators();
+    if (event.target.value === '') {
+      this.addPatientForm.get('gstn_number')?.clearValidators();
+      this.addPatientForm.get('gstn_number')?.updateValueAndValidity();
+    }
+
+    this.addPatientForm.get('gstn_number')?.updateValueAndValidity();
+  }
+  gstinValidators() {
+    const GSTINControl = this.addPatientForm.get('gstn_number');
+    if (GSTINControl?.value === '') {
+      this.addPatientForm.get('gstn_number')?.clearValidators();
+      this.addPatientForm.get('gstn_number')?.updateValueAndValidity();
+    } else {
+      GSTINControl?.setValidators([
+        Validators.required,
+        Validators.minLength(15),
+        Validators.pattern(
+          /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/
+        ),
+      ]);
+      GSTINControl?.updateValueAndValidity();
+    }
   }
 
   openLink(event: MouseEvent): void {
@@ -130,7 +156,7 @@ export class AddPatientComponent {
     this._bottomSheetRef.dismiss();
   }
   onDateOfBirth(event: any) {
-    if (event.value) {
+    if (event.value != '') {
       const formattedDate =
         this.datePipe.transform(event.value, 'yyyy-MM-dd') || '';
       console.log(formattedDate);
@@ -138,11 +164,43 @@ export class AddPatientComponent {
     }
   }
 
-  onEmailValueChange() {
-    this.emailValidators();
+  onEmailValueChange(event: any) {
+    console.log(event.target.value);
+
+    console.log('ValueChangeEvent');
+    if (event.target.value === '') {
+      this.addPatientForm.get('email')?.clearValidators();
+      this.addPatientForm.get('email')?.updateValueAndValidity();
+    } else {
+      this.emailValidators();
+    }
+  }
+  emailValidators() {
+    const emailControl = this.addPatientForm.get('email');
+
+    if (emailControl) {
+      emailControl.setValidators([
+        Validators.required,
+        Validators.email,
+        Validators.pattern(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/),
+      ]);
+      emailControl.updateValueAndValidity();
+      console.log('validators updated');
+    }
   }
 
   addAddressExtention() {
     this.addAddress = !this.addAddress;
+
+    if (this.addAddress) {
+      this.addressValidations();
+    } else {
+      this.addPatientForm.get('zipcode')?.clearValidators();
+      this.addPatientForm.get('city')?.clearValidators();
+      this.addPatientForm.get('gstn_number')?.clearValidators();
+      this.addPatientForm.get('gstn_number')?.updateValueAndValidity();
+    }
+    this.addPatientForm.get('zipcode')?.updateValueAndValidity();
+    this.addPatientForm.get('city')?.updateValueAndValidity();
   }
 }

@@ -33,7 +33,7 @@
 }
 
 .buttons {
-    padding: 10px;
+    padding: 15px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -43,10 +43,12 @@
 }
 
 .submit {
-    padding: 5px;
-    padding-left: 20px;
-    padding-right: 20px;
-    border-radius: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+
+    padding-left: 30px;
+    padding-right: 30px;
+    border-radius: 2px;
     background-color: rgba(12, 161, 246, 1);
     color: #fff;
     border: none;
@@ -98,9 +100,25 @@
     border-bottom: 2px solid rgba(7, 35, 245, 0.188);
 }
 
+
 .name-mobile-dob {
     display: flex;
     gap: 60px;
+}
+
+.edit {
+    font-size: x-large;
+    color: #000000;
+}
+
+.mobile-value {
+    font-size: x-large;
+    color: #000000;
+}
+
+.dob {
+    font-size: x-large;
+    color: #000000;
 }
 
 .value {
@@ -116,12 +134,19 @@
     width: 15rem;
 }
 
+.date-picker {
+    display: flex;
+}
+
 .address-line {
     width: 90%;
     border-bottom: 2px solid rgba(0, 0, 255, 0.33);
     display: flex;
     justify-content: space-between;
+
+    flex-direction: row;
     color: #000000;
+    margin-top: 10px;
 }
 
 .new-address {
@@ -136,6 +161,17 @@
 .additional-info {
     display: flex;
     gap: 60px;
+}
+
+.show-more-less {
+    color: #00254f;
+    font-size: larger;
+    padding: 10px;
+}
+.show-more-less span {
+    color: #044C9D;
+    font-size: larger;
+    padding: 10px;
 }
 
 .default {

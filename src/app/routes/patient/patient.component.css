@@ -1,0 +1,45 @@
+.main {
+    background-color: rgba(250, 235, 215, 0.36);
+    height: 100vh;
+}
+
+.navbar {
+    display: flex;
+    justify-content: end;
+    align-items: end;
+    padding: 20px;
+}
+
+.navbar button {
+    border: none;
+    color: white;
+    background-color: #0ca1f6;
+    padding: 10px;
+    font-size: large;
+}
+
+.breadcrumbs {
+    display: flex;
+    padding: 10px;
+    font-size: larger;
+}
+
+.first-row {
+    display: flex;
+    gap: 30px;
+    padding: 20px;
+}
+
+.first-row label {
+    color: rgba(4, 76, 157, .6);
+}
+
+.second-row {
+    display: flex;
+    gap: 30px;
+    padding: 20px;
+}
+
+.second-row label {
+    color: rgba(4, 76, 157, .6);
+}

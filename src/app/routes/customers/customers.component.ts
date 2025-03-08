@@ -22,7 +22,7 @@ import { AddPatientComponent } from '../patient/add-patient/add-patient.componen
   styleUrl: './customers.component.css',
 })
 export class CustomersComponent {
-  Customers: any;
+  Customers: Customer[] = [];
   searchstring: string = '';
   sortOrder: 'asc' | 'desc' = 'asc';
   sortColumn: string = '';
@@ -91,7 +91,7 @@ export class CustomersComponent {
       preferred: this.preferred,
       not_registered: this.not_registered,
       status: this.status,
-      current_page: this.page,
+      page: this.page,
     };
 
     this.customers.listCustomers(obj).subscribe((res) => {
@@ -105,15 +105,52 @@ export class CustomersComponent {
     this.router.navigate(['/customers/view', customer.patient_id]);
   }
 
-  sortTable(column: string) {
-    this.sortOrder =
-      this.sortColumn === column
-        ? this.sortOrder === 'asc'
-          ? 'desc'
-          : 'asc'
-        : 'asc';
-    this.sortColumn = column;
+  patientNameSortColumn: string = '';
+  patientNameSortOrder: 'asc' | 'desc' = 'asc';
 
+  lastOrderDateSortColumn: string = '';
+  lastOrderDateSortOrder: 'asc' | 'desc' = 'asc';
+
+  dueOrdersAmountSortColumn: string = '';
+  dueOrdersAmountSortOrder: 'asc' | 'desc' = 'asc';
+  sortTable(column: string) {
+    switch (column) {
+      case 'patient_name':
+        this.patientNameSortOrder =
+          this.patientNameSortColumn === column
+            ? this.patientNameSortOrder === 'asc'
+              ? 'desc'
+              : 'asc'
+            : 'asc';
+        this.patientNameSortColumn = column;
+        this.sortColumn = column;
+        this.sortOrder = this.patientNameSortOrder;
+        break;
+
+      case 'last_order_date':
+        this.lastOrderDateSortOrder =
+          this.lastOrderDateSortColumn === column
+            ? this.lastOrderDateSortOrder === 'asc'
+              ? 'desc'
+              : 'asc'
+            : 'asc';
+        this.lastOrderDateSortColumn = column;
+        this.sortColumn = column;
+        this.sortOrder = this.lastOrderDateSortOrder;
+        break;
+
+      case 'due_orders_amount':
+        this.dueOrdersAmountSortOrder =
+          this.dueOrdersAmountSortColumn === column
+            ? this.dueOrdersAmountSortOrder === 'asc'
+              ? 'desc'
+              : 'asc'
+            : 'asc';
+        this.dueOrdersAmountSortColumn = column;
+        this.sortColumn = column;
+        this.sortOrder = this.dueOrdersAmountSortOrder;
+        break;
+    }
     this.customerListing();
   }
   onSubmitSearch(searchstring: string) {
@@ -182,13 +219,15 @@ export class CustomersComponent {
       });
   }
   next() {
-    if (this.Customers.length() === 20) {
+    if (this.Customers.length === 20) {
+      console.log('next page');
       this.page++;
       this.customerListing();
     }
   }
+
   prev() {
-    if (0 < this.Customers.length() && this.Customers.length() < 20) {
+    if (this.page > 1) {
       this.page--;
       this.customerListing();
     }
