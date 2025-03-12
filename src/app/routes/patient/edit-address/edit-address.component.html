@@ -5,45 +5,78 @@
       <div class="title2">Edit Address</div>
     </div>
     <div class="buttons">
-      <div class="submit" (click)="onSubmit()">Add</div>
-      <div class="close" (click)="onClose()">Close</div>
+      <div *ngIf="newAddress" class="submit" (click)="onSubmit()">Add</div>
+      <div
+        *ngIf="!newAddress && profileVerified == 1"
+        class="submit"
+        (click)="otpSend ? onSubmit() : verfiyOtp()"
+      >
+        {{ otpSend ? "Update" : "Verify" }}
+      </div>
+      <div
+        *ngIf="!newAddress && profileVerified !== 1"
+        class="submit"
+        (click)="onSubmit()"
+      >
+        Add
+      </div>
+
+      <!-- <div
+        class="submit"
+        *ngIf="profile"
+        (click)="otpSend === false ? verfiyOtp() : onSubmit()"
+      >
+        {{ otpSend === false ? "Verify" : "Add" }}
+      </div>
+      <div *ngIf="!profile" class="submit" (click)="onSubmit()">Add</div> -->
+
+      <div class="close" (click)="onClose()">
+        <i class="fa fa-times" aria-hidden="true"></i>
+      </div>
     </div>
   </div>
 
-  <div class="back_button" (click)="onBack()"><i class="fa fa-chevron-left" aria-hidden="true"></i> Back</div>
+  <div class="back_button" (click)="onBack()">
+    <i class="fa fa-chevron-left" aria-hidden="true"></i> Back
+  </div>
   <div class="form back">
     <form action="" [formGroup]="editAddressForm">
-      <div class="name">
+      <div class="name" *ngIf="!newAddress">
         <div class="input-label">
-          <label for="">Firstname</label>
+          <label for="">First Name</label>
           <input
             type="text"
             formControlName="first_name"
-            placeholder="Firstname"
+            placeholder="First Name"
           />
         </div>
         <div class="input-label">
-          <label for="">lastname</label>
+          <label for="">Last Name</label>
           <input
             type="text"
             formControlName="last_name"
-            placeholder="lastname"
+            placeholder="Last Name"
           />
         </div>
       </div>
       <div class="address-line">
         <div class="input-label input-label-address">
-          <label for="">Address</label>
+          <label for="">Address Line 1</label>
           <input
             type="text"
             formControlName="address"
-            placeholder="address_line1"
+            placeholder="Address Line 1"
             (change)="onAddressValueChange($event)"
           />
+        </div>
+      </div>
+      <div class="address-line">
+        <div class="input-label input-label-address">
+          <label for="">Address Line 2</label>
           <input
             type="text"
             formControlName="address_line2"
-            placeholder="address_line2"
+            placeholder="Address Line 2"
           />
         </div>
       </div>
@@ -72,6 +105,23 @@
             </div>
           </div>
         </div>
+      </div>
+      <div class="locateOnMap">
+        <div class="LocateMapButton">
+          <i class="fa-solid fa-location-dot"></i>
+          <div>Locate on map</div>
+          <div>New</div>
+        </div>
+      </div>
+      <div class="otp" *ngIf="otpSend">
+        <div for="">Verification Code</div>
+        <div class="input-label otp-label">
+          <input formControlName="otp" placeholder="Verification Code" />
+          <div class="resend"><i class="fas fa-redo" (click)="verfiyOtp()"></i>Resend</div>
+        </div>
+      </div>
+      <div *ngIf="otpSend" class="Verify">
+        Verification code send on mobile {{ data.patient.mobile }}
       </div>
     </form>
   </div>

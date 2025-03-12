@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Tags } from '../routes/patient/edit-patient/edit-patient.component';
 
 export interface Customer {
   patient_id: string;
@@ -38,7 +39,7 @@ export interface Patient {
   balance: number;
   city: string;
   country: string;
-  customer_tags: string[];
+  customer_tags: Tags[];
   discount_percentage: number;
   dob: string;
   due_message: string;
@@ -95,7 +96,7 @@ export class CustomersService {
     return this.http.post<listingResponse>(
       'https://staging.evitalrx.in:3000/v3/patients',
       {
-        accesstoken: 'v8xa2a8kpm9v397c',
+        accesstoken: 'uxkimxpcd4ah8tsm',
         chemist_id: 11146,
         device_id: '5c096697-2134-44f9-a843-80ac7ee69ba9',
         login_parent_id: 11146,
@@ -108,7 +109,7 @@ export class CustomersService {
     return this.http.post<getPatientResponse>(
       'https://staging.evitalrx.in:3000/v3/patients/get',
       {
-        accesstoken: 'v8xa2a8kpm9v397c',
+        accesstoken: 'uxkimxpcd4ah8tsm',
         chemist_id: 11146,
         device_id: '5c096697-2134-44f9-a843-80ac7ee69ba9',
         login_parent_id: 11146,
@@ -121,7 +122,7 @@ export class CustomersService {
     return this.http.post<addPatientResponse>(
       'https://staging.evitalrx.in:3000/v3/patients/add_patient',
       {
-        accesstoken: 'v8xa2a8kpm9v397c',
+        accesstoken: 'uxkimxpcd4ah8tsm',
         chemist_id: 11146,
         device_id: '5c096697-2134-44f9-a843-80ac7ee69ba9',
         login_parent_id: 11146,
@@ -133,7 +134,7 @@ export class CustomersService {
     return this.http.post<addPatientResponse>(
       'https://staging.evitalrx.in:3000/v3/patients/edit_customer_details',
       {
-        accesstoken: 'v8xa2a8kpm9v397c',
+        accesstoken: 'uxkimxpcd4ah8tsm',
         chemist_id: 11146,
         device_id: '5c096697-2134-44f9-a843-80ac7ee69ba9',
         login_parent_id: 11146,
@@ -145,12 +146,51 @@ export class CustomersService {
     return this.http.post<addPatientResponse>(
       'https://staging.evitalrx.in:3000/v3/patients/edit_patient',
       {
-        accesstoken: 'v8xa2a8kpm9v397c',
+        accesstoken: 'uxkimxpcd4ah8tsm',
         chemist_id: 11146,
         device_id: '5c096697-2134-44f9-a843-80ac7ee69ba9',
         login_parent_id: 11146,
         ...obj,
       }
     );
+  }
+
+  deleteTags(obj: any) {
+    return this.http.post<addPatientResponse>(
+      'https://staging.evitalrx.in:3000/v3/patients/delete_tag',
+      {
+        accesstoken: 'uxkimxpcd4ah8tsm',
+        chemist_id: 11146,
+        device_id: '5c096697-2134-44f9-a843-80ac7ee69ba9',
+        login_parent_id: 11146,
+        ...obj,
+      }
+    );
+  }
+  sendOtp(obj: any) {
+    return this.http.post<addPatientResponse>(
+      'https://staging.evitalrx.in:3000/v3/patients/send_otp',
+      {
+        accesstoken: 'uxkimxpcd4ah8tsm',
+        chemist_id: 11146,
+        device_id: '5c096697-2134-44f9-a843-80ac7ee69ba9',
+        login_parent_id: 11146,
+        ...obj,
+      }
+    );
+  }
+  
+  otpSendToPatient(obj: any) {
+    return this.http.post<addPatientResponse>(
+      'https://staging.evitalrx.in:3000/v3/patients/otp_to_patient',
+      {
+        accesstoken: 'uxkimxpcd4ah8tsm',
+        chemist_id: 11146,
+        device_id: '5c096697-2134-44f9-a843-80ac7ee69ba9',
+        login_parent_id: 11146,
+        ...obj,
+      }
+    );
+
   }
 }

@@ -13,33 +13,52 @@
   </div>
 
   <div class="form">
-    <div class="error" *ngIf="addPatientForm.errors">
-        Invalid Form
-    </div>
+    <div class="error" *ngIf="addPatientForm.errors">Invalid Form</div>
     <form [formGroup]="addPatientForm">
       <div class="mobile-mail">
         <div class="input-label">
-          <label for="">Mobile</label>
-          <input type="text" formControlName="mobile" />
+          <label for="">Mobile Number</label>
+          <input
+            formControlName="mobile"
+            maxlength="10"
+            placeholder="Mobile Number"
+            (input)="onMobileInputChange($event)"
+          />
           <div
             class="error"
-            *ngIf="submmited && addPatientForm.controls.mobile.errors?.['required']"
+            *ngIf="(submmited || verifyMobile) && addPatientForm.controls.mobile.errors?.['required']"
           >
             Mobile Number is Required
           </div>
           <div
             class="error"
-            *ngIf="addPatientForm.controls.mobile.errors?.['pattern']"
+            *ngIf="(submmited || verifyMobile) && addPatientForm.controls.mobile.errors?.['pattern']"
           >
-            Mobile Number is Invalid
+            Mobile Number is invalid
           </div>
         </div>
         <div class="input-label">
-          <!-- <label for="">OTP</label>
-          <input type="number" formControlName="otp" />
-          <div class="error" *ngIf="addPatientForm.controls.email.errors">
-            Email is Invalid
-          </div> -->
+          <span *ngIf="!verifyMobile">&nbsp;&nbsp;</span>
+          <label for="" *ngIf="verifyMobile"
+            >Verification Code
+            <i class="fas fa-redo" (click)="onVerfyMobile()"></i
+          ></label>
+          <input
+            formControlName="otp"
+            placeholder="Verify Mobile"
+            *ngIf="verifyMobile"
+          />
+          <div
+            class="verify-mobile"
+            *ngIf="!verifyMobile"
+            (click)="onVerfyMobile()"
+          >
+            Verify Mobile <i class="fas fa-chevron-right"></i>
+          </div>
+          <div
+            class="error"
+            *ngIf="verifyMobile && this.addPatientForm.controls.mobile.invalid"
+          ></div>
         </div>
         <div class="input-label email">
           <label for="">Email</label>
@@ -47,6 +66,7 @@
             type="email"
             formControlName="email"
             (change)="onEmailValueChange($event)"
+            placeholder="Email Address"
           />
           <div class="error" *ngIf="addPatientForm.controls.email.errors">
             Email is Invalid
@@ -56,20 +76,40 @@
       <div class="name-discount">
         <div class="input-label">
           <label for="">First Name</label>
-          <input type="text" formControlName="first_name" />
+          <input
+            type="text"
+            formControlName="first_name"
+            placeholder="First Name"
+            (keypress)="noSpecialChar($event)"
+          />
           <div
             class="error"
-            *ngIf="submmited && addPatientForm.controls.first_name.invalid"
+            *ngIf="
+              submmited && addPatientForm.get('first_name')?.hasError('pattern')
+            "
+          >
+            Special character not allowed
+          </div>
+          <div
+            class="error"
+            *ngIf="
+              submmited &&
+              addPatientForm.get('first_name')?.hasError('required')
+            "
           >
             Required
           </div>
         </div>
         <div class="input-label">
-          <label for="">Lastname</label>
-          <input type="text" formControlName="last_name" />
+          <label for="">Last Name</label>
+          <input
+            type="text"
+            formControlName="last_name"
+            placeholder="Last Name"
+          />
         </div>
         <div class="input-label">
-          <label for="">Set Defualt Discount(%)</label>
+          <label for="">Set Default Discount(%)</label>
           <input formControlName="discount_percentage" />
         </div>
       </div>
@@ -83,6 +123,7 @@
               formControlName="dob"
               (dateChange)="onDateOfBirth($event)"
               [max]="today"
+              placeholder="Ex. 03/06/2002"
             />
             <mat-datepicker-toggle
               matIconSuffix
@@ -92,7 +133,7 @@
           </div>
         </div>
         <div class="input-label">
-          <label for="">Gender</label>
+          <label for="">&nbsp;</label>
           <mat-radio-group
             aria-label="Select an option"
             formControlName="gender"
@@ -104,7 +145,7 @@
       </div>
 
       <div class="address-Link" (click)="addAddressExtention()">
-        Add Address
+        + Add Address
       </div>
 
       <div class="address" *ngIf="addAddress">
@@ -114,12 +155,12 @@
             <input
               type="text"
               formControlName="address"
-              placeholder="address_line1"
+              placeholder="Address line 1"
             />
             <input
               type="text"
               formControlName="address_line2"
-              placeholder="address_line2"
+              placeholder="Address line 2"
             />
           </div>
         </div>
@@ -127,7 +168,7 @@
           <div class="city">
             <div class="input-label">
               <label for="">City</label>
-              <input formControlName="city" placeholder="City" />
+              <input formControlName="city" placeholder="Enter a location" />
               <div
                 class="error"
                 *ngIf="submmited && addPatientForm.controls.city.errors?.['required']"
@@ -157,10 +198,10 @@
         </div>
         <div class="gst-pan">
           <div class="input-label">
-            <label for="">GSTIN</label>
+            <label for="">GSTIN / PAN</label>
             <input
               formControlName="gstn_number"
-              placeholder="GSTIN / PAN"
+              placeholder="GSTIN / PAN Number"
               (change)="onGSTINValueChange($event)"
             />
             <div

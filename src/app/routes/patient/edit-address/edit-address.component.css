@@ -20,7 +20,8 @@
 
 .back_button {
     padding: 10px;
-    color: #044C9D;
+    color: #0ca1f6;
+    cursor: pointer;
 }
 
 .title {
@@ -65,7 +66,9 @@
 }
 
 .form {
-    padding: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-bottom: 30px;
 }
 
 .error {
@@ -84,17 +87,17 @@
     font-size: 14px;
     color: rgba(4, 76, 157, 1);
     font-weight: 500;
-    padding-bottom: 4px;
+    padding-bottom: 10px;
 }
 
 .input-label input {
     display: flex;
     font-size: larger;
-    width: 10rem;
+    width: 15rem;
     border: none;
     outline: none;
-    padding: 5px;
-    font-size: 16px;
+    padding: 0px;
+    font-size: 18px;
     border-bottom: 2px solid rgba(7, 35, 245, 0.27);
 }
 
@@ -106,9 +109,58 @@
 .city-pincode {
     display: flex;
     gap: 20px;
+
+    padding-bottom: 10px;
 }
 
 .name {
     display: flex;
     gap: 20px;
+}
+
+.locateOnMap {
+    min-width: 200px;
+    max-width: 200px;
+    background-color: #0ca1f6;
+    color: white;
+    height: auto;
+    padding: 10px 10px;
+    border-radius: 3px;
+}
+
+.LocateMapButton {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
+}
+
+.Verify {
+    color: #0ca1f6;
+    font-weight: 500;
+    font-size: 15px;
+}
+
+.otp-label {
+    display: flex;
+    flex-direction: row;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.otp-label input {
+    width: 90%;
+}
+
+.otp-label i {
+    margin-right: 5px;
+}
+
+.resend:hover {
+    cursor: pointer;
+}
+
+.verified {
+    color: #0ca1f6;
 }

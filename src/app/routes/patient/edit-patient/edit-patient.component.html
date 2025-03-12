@@ -21,14 +21,21 @@
           <div class="edit">
             {{ Patient.firstname }} {{ Patient.lastname }}
             <!-- <mat-icon>edit</mat-icon> -->
-            <mat-icon (click)="addNewAddressBottomsheet()">edit</mat-icon>
+            <div class="tooltip-profile">
+              <mat-icon class="edit-icon" (click)="editProfileName()">
+                edit
+              </mat-icon>
+              <span class="tooltiptext-profile">Edit customer details</span>
+            </div>
           </div>
         </div>
         <div class="input-label">
           <label for="">Mobile</label>
           <div class="value mobile-value">
             {{ Patient.mobile }}
+            <div *ngIf="Patient.verified" class="default">Verified</div>
           </div>
+          <mat-icon></mat-icon>
         </div>
         <div class="input-label">
           <label for="">Date of Birth</label>
@@ -39,12 +46,16 @@
               formControlName="dob"
               (dateChange)="onDateOfBirth($event)"
               [max]="today"
+              placeholder="ex. 11/06/2020"
             />
             <mat-datepicker-toggle
               matIconSuffix
               [for]="dob"
             ></mat-datepicker-toggle>
             <mat-datepicker #dob></mat-datepicker>
+          </div>
+          <div class="error" *ngIf="editPatientForm.controls.dob.invalid">
+            Invaild date
           </div>
         </div>
       </div>
@@ -61,7 +72,7 @@
           </div>
         </div>
         <div class="input-label">
-          <label for="">Gender</label>
+          <label for="">&nbsp;</label>
           <mat-radio-group
             aria-label="Select an option"
             formControlName="gender"
@@ -73,31 +84,64 @@
       </div>
       <div class="address">
         <div class="" *ngIf="Patient.addresses.length > 1">
-          <label for="" class="show-more-less"
-            >Addresses
+          <label for="" class="show-more-less">
+            Addresses
             <span (click)="onMoreAddress()">
-              +
               {{
                 Address.length > 1 && !moreAddress
-                  ? Address.length - 1
-                  : "Show Less"
+                  ? "+" + (Address.length - 1) + " More"
+                  : " Show Less"
               }}</span
             >
           </label>
 
           <div *ngIf="moreAddress">
-            <div class="address-line" *ngFor="let Patient of Address">
+            <div class="address-line" *ngIf="defaultAdress">
               <div>
-                {{ Patient.address ? Patient.address + " ," : "" }}
-                {{ Patient.address_line2 ? Patient.address_line2 + " ," : "" }}
-                {{ Patient.city ? Patient.city + " ," : "" }}
-                {{ Patient.state ? Patient.state + " ," : "" }}
-                {{ Patient.zipcode ? Patient.zipcode + " ," : "" }}
+                {{ defaultAdress.address ? defaultAdress.address + "," : "" }}
+                {{
+                  defaultAdress.address_line2
+                    ? defaultAdress.address_line2 + ","
+                    : ""
+                }}
+                {{ defaultAdress.city ? defaultAdress.city + "," : "" }}
+                {{ defaultAdress.state ? defaultAdress.state + "," : "" }}
+                {{ defaultAdress.zipcode ? defaultAdress.zipcode + "." : "" }}
               </div>
-              <div class="default" *ngIf="Patient.is_default === 'yes'">
-                Defualt
+              <div class="default-edit-icon">
+                <div class="default">Default</div>
+                <div class="tooltip">
+                  <mat-icon
+                    class="edit-icon verticle-line"
+                    (click)="onAddressEditClick(defaultAdress)"
+                    >edit</mat-icon
+                  >
+                  <span class="tooltiptext">Edit address</span>
+                </div>
               </div>
-              <mat-icon (click)="onAddressEditClick(Patient)">edit</mat-icon>
+            </div>
+            <div *ngFor="let Patient of Address">
+              <div class="address-line" *ngIf="Patient != defaultAdress">
+                {{ Patient.address ? Patient.address + "," : "" }}
+                {{ Patient.address_line2 ? Patient.address_line2 + "," : "" }}
+                {{ Patient.city ? Patient.city + "," : "" }}
+                {{ Patient.state ? Patient.state + "," : "" }}
+                {{ Patient.zipcode ? Patient.zipcode + "." : "" }}
+
+                <div class="default-edit-icon">
+                  <div class="default" *ngIf="Patient.is_default === 'yes'">
+                    Default
+                  </div>
+                  <div class="tooltip">
+                    <mat-icon
+                      class="edit-icon verticle-line"
+                      (click)="onAddressEditClick(Patient)"
+                      >edit</mat-icon
+                    >
+                    <span class="tooltiptext">Edit address</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -105,20 +149,30 @@
       <div class="address">
         <div class="address-line" *ngIf="!moreAddress && defaultAdress">
           <div *ngIf="defaultAdress">
-            {{ defaultAdress.address ? defaultAdress.address + " ," : "" }}
+            {{ defaultAdress.address ? defaultAdress.address + "," : "" }}
             {{
               defaultAdress.address_line2
-                ? defaultAdress.address_line2 + " ,"
+                ? defaultAdress.address_line2 + ","
                 : ""
             }}
-            {{ defaultAdress.city ? defaultAdress.city + " ," : "" }}
-            {{ defaultAdress.state ? defaultAdress.state + " ," : "" }}
-            {{ defaultAdress.zipcode ? defaultAdress.zipcode + " ," : "" }}
+            {{ defaultAdress.city ? defaultAdress.city + "," : "" }}
+            {{ defaultAdress.state ? defaultAdress.state + "," : "" }}
+            {{ defaultAdress.zipcode ? defaultAdress.zipcode + "." : "" }}
           </div>
-          <div class="default" *ngIf="defaultAdress.is_default === 'yes'">
-            Defualt
+          <div class="default-edit-icon">
+            <div class="default" *ngIf="defaultAdress.is_default === 'yes'">
+              Default
+            </div>
+            <div class="tooltip">
+              <mat-icon
+                class="edit-icon verticle-line"
+                (click)="onAddressEditClick(defaultAdress)"
+              >
+                edit
+              </mat-icon>
+              <span class="tooltiptext">Edit address</span>
+            </div>
           </div>
-          <mat-icon (click)="onAddressEditClick(defaultAdress)">edit</mat-icon>
         </div>
       </div>
       <!-- <div class="address">
@@ -154,16 +208,18 @@
       </div> -->
 
       <h2 class="new-address" (click)="addNewAddressBottomsheet()">
-        + New Address
+        <i class="fa-solid fa-circle-plus"></i> New Address
       </h2>
 
+      <div class="additional-info-label">Additional Info</div>
       <div class="additional-info">
         <div class="input-label">
-          <label for="">Aadhar</label>
+          <label for="">Aadhaar No.</label>
           <input
             formControlName="aadhar_number"
             placeholder="XXXX XXXX XXXX"
             (change)="onAadharValueChange($event)"
+            (input)="onAadharNumberInputChange($event)"
           />
           <div
             class="error"
@@ -190,6 +246,38 @@
           <label for="">Discount (%)</label>
           <input type="text" formControlName="discount_percentage" />
         </div>
+      </div>
+
+      <div class="input-label tags">
+        <div class="tooltip-tags">
+          <label for="">Manage Tag(s)</label>
+          <span class="tooltiptext-tags"
+            >You can set a maximum of 5 tags for each customer. Allow only 0-9,
+            a-z and dash.</span
+          >
+        </div>
+        <mat-form-field class="example-chip-list">
+          <mat-chip-grid #chipList aria-label="Fruit selection">
+            <mat-chip-row
+              *ngFor="let tag of tags"
+              [disabled]="!selectable"
+              (removed)="remove(tag)"
+            >
+              {{ tag.tag }}
+              <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+            </mat-chip-row>
+            <input
+              placeholder="Enter tag here"
+              [matChipInputFor]="chipList"
+              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+              [matChipInputAddOnBlur]="addOnBlur"
+              (matChipInputTokenEnd)="add($event)"
+              maxlength="15"
+              [disabled]="tags.length >= 5"
+            />
+          </mat-chip-grid>
+          <div class="error" *ngIf="tags.length >= 5">Only allowed 5 Tags</div>
+        </mat-form-field>
       </div>
     </form>
   </div>

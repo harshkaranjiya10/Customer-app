@@ -16,6 +16,7 @@ import {
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CommonModule, DatePipe } from '@angular/common';
 import { CustomersService } from '../../../shared/customers.service';
+import { LocaleService } from 'ngx-daterangepicker-material';
 @Component({
   selector: 'app-add-patient',
   standalone: true,
@@ -25,13 +26,21 @@ import { CustomersService } from '../../../shared/customers.service';
     MatDatepickerModule,
     ReactiveFormsModule,
   ],
-  providers: [provideNativeDateAdapter(), CustomersService, DatePipe],
+  providers: [
+    provideNativeDateAdapter(),
+    CustomersService,
+    DatePipe,
+    LocaleService,
+  ],
   templateUrl: './add-patient.component.html',
   styleUrl: './add-patient.component.css',
 })
 export class AddPatientComponent {
   addPatientForm = new FormGroup({
-    first_name: new FormControl('', [Validators.required]),
+    first_name: new FormControl('', [
+      Validators.required,
+      Validators.pattern('^[a-zA-Z0-9\\-\\s]+$'),
+    ]),
     last_name: new FormControl(''),
     email: new FormControl(''),
     dob: new FormControl(''),
@@ -55,6 +64,7 @@ export class AddPatientComponent {
   private _bottomSheetRef =
     inject<MatBottomSheetRef<AddPatientComponent>>(MatBottomSheetRef);
 
+  verifyMobile = false;
   constructor(
     private customerService: CustomersService,
     private datePipe: DatePipe
@@ -182,7 +192,7 @@ export class AddPatientComponent {
       emailControl.setValidators([
         Validators.required,
         Validators.email,
-        Validators.pattern(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/),
+        Validators.pattern(/^[\w\-\.]+@([\w-]+\.)+[\w-]{2,}$/gm),
       ]);
       emailControl.updateValueAndValidity();
       console.log('validators updated');
@@ -202,5 +212,41 @@ export class AddPatientComponent {
     }
     this.addPatientForm.get('zipcode')?.updateValueAndValidity();
     this.addPatientForm.get('city')?.updateValueAndValidity();
+  }
+
+  noSpecialChar(event: KeyboardEvent) {
+    const pattern = /^[a-zA-Z ]+$/;
+    if (!pattern.test(event.key) && event.key !== 'Backspace') {
+      event.preventDefault();
+    }
+  }
+  onVerfyMobile() {
+    if (this.addPatientForm.controls.mobile.invalid) {
+      this._snackBar.open('Invalid Phone number', 'Close');
+    } else if (this.addPatientForm.controls.first_name.invalid) {
+      this._snackBar.open('Invalid Name', 'Close');
+    } else if (this.addPatientForm.controls.email.invalid) {
+      this._snackBar.open('Invalid Email', 'Close');
+    } else {
+      this.customerService
+        .sendOtp(this.addPatientForm.value)
+        .subscribe((res) => {
+          console.log(res);
+          if (
+            res.status_code === '0' &&
+            res.status_message === 'This Mobile is already exist.'
+          ) {
+            this._snackBar.open('This Mobile is already exist.', 'Close');
+          } else {
+            this.verifyMobile = true;
+          }
+        });
+    }
+  }
+
+  onMobileInputChange(event: any) {
+    this.addPatientForm.controls.mobile.setValue(
+      event.target.value.replace(/[^0-9]/g, '')
+    );
   }
 }

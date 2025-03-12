@@ -8,10 +8,12 @@ import {
 import { EditPatientComponent } from './edit-patient/edit-patient.component';
 import { CommonModule } from '@angular/common';
 
+import { NgScrollbarModule } from 'ngx-scrollbar';
+
 @Component({
   selector: 'app-patient',
   standalone: true,
-  imports: [MatBottomSheetModule,CommonModule],
+  imports: [MatBottomSheetModule, CommonModule, NgScrollbarModule],
   templateUrl: './patient.component.html',
   styleUrl: './patient.component.css',
 })

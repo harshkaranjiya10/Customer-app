@@ -1,13 +1,30 @@
+ng-scrollbar {
+    --scrollbar-thumb-color: rgba(4, 76, 156, 0.86);
+    --scrollbar-track-color: transparent;
+    --scrollbar-size: 8px;
+    --scrollbar-border-radius: 4px;
+}
+
 .lisiting-filters {
     margin: 20px;
-    background-color: #dddddd;
-    height: 100vh;
+    background-color: white;
+    height: auto;
 }
 
 .filters {
     display: flex;
     gap: 20px;
 }
+
+.search input {
+    width: 15rem;
+    height: 30px;
+}
+
+.date-filter-input input {
+    height: 30px;
+}
+
 
 .customer_type {
     margin: 0px;
@@ -40,6 +57,7 @@ th {
     font: 100;
     padding: 8px;
     color: #044C9D;
+    height: 30px;
 }
 
 tr,
@@ -53,11 +71,25 @@ tbody tr:hover {
     cursor: pointer;
 }
 
+.amount-header {
+    width: auto;
+}
+
 i.fa-solid {
     opacity: 50%;
 }
+
 i.fa-arrow-down-a-z {
     opacity: 100%;
+}
+
+i.fa-arrow-down-1-9 {
+    opacity: 100%;
+}
+
+.amount {
+    width: 120px;
+    text-align: end;
 }
 
 .add-customer button {
@@ -67,6 +99,7 @@ i.fa-arrow-down-a-z {
     background-color: #0ca1f6;
     padding: 10px;
     font-size: large;
+    cursor: pointer;
 }
 
 .page {
@@ -77,9 +110,9 @@ i.fa-arrow-down-a-z {
     padding-bottom: 20px;
     padding-top: 20px;
     gap: 20px;
-  }
-  
-  .page button {
+}
+
+.page button {
     background-color: rgba(12, 161, 246, 1);
     border-radius: 2px;
     padding-left: 20px;
@@ -91,4 +124,120 @@ i.fa-arrow-down-a-z {
     display: flex;
     align-items: center;
     border: transparent;
-  }
+}
+
+.loader {
+    z-index: 1111;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 16px solid #f3f3f3;
+    border-top: 16px solid #3498db;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.applyFilter {
+    background-color: rgba(12, 161, 246, 1);
+    cursor: pointer;
+    height: 30px;
+    border: 0;
+    border-radius: 2px;
+    padding: 0px 15px;
+    font-size: 14px;
+    color: #fff;
+    font-weight: 600;
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 70px;
+}
+
+.preferred span {
+    background-color: #0CA1F6;
+    width: 30px;
+    height: 30px;
+    padding: 2px;
+    border-radius: 50%;
+    color: white;
+    margin-left: 20px;
+}
+
+.example-h2 {
+    margin: 10px;
+}
+
+.example-section {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    height: 60px;
+}
+
+.example-margin {
+    margin: 0 10px;
+}
+
+
+.invite {
+    color: #25D366;
+}
+
+.first {
+    width: 200px;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 150px;
+    background-color: #555;
+    color: #fff;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    border-radius: 6px;
+    padding: 2px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -75px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: small;
+}
+
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}

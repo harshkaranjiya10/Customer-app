@@ -1,57 +1,70 @@
-<div class="main">
-  <div class="navbar">
-    <button (click)="onEditProfile()">Edit Profile</button>
-  </div>
-  <div class="breadcrumbs">
-    <!-- <div class="">Customer</div> -->
-    <div class="customer-name">
-      {{ Patient.firstname }} {{ Patient.lastname }}
+<ng-scrollbar>
+  <div class="main">
+    <div class="navbar">
+      <div class="breadcrumbs">
+        <div class="customer-name">
+          Customer &nbsp;
+          <i class="fas fa-chevron-right"></i> &nbsp;{{ Patient.firstname }}
+          {{ Patient.lastname }} <i class="bulb fa-solid fa-lightbulb"></i>
+        </div>
+        <!-- <div class="">Customer</div> -->
+      </div>
+      <button class="edit-button" (click)="onEditProfile()">
+        Edit Profile
+      </button>
     </div>
-  </div>
-  <div class="hero">
-    <div class="first-row">
-      <div class="mobile">
-        <label for="">Mobile</label>
-        <div>
-          {{ Patient.mobile }}
-        </div>
-      </div>
-      <div class="email">
-        <label for="">Email</label>
-        <div>
-          {{ Patient.email ? Patient.email : "-" }}
-        </div>
-      </div>
-      <div class="address">
-        <label for="">Address</label>
-        <div>
-          <div *ngIf="Patient.address; else elseBlock">
-            {{ Patient.address }}, {{ Patient.city }}, {{ Patient.zipcode }}
+    <div class="hero">
+      <div class="first-row">
+        <div class="mobile">
+          <label for="">Mobile</label>
+          <div class="mobile-verified">
+            {{ Patient.mobile }}
+            <div *ngIf="Patient.verified" class="verified">
+              <i class="fas fa-check-circle"></i> Verified
+            </div>
           </div>
-          <ng-template #elseBlock>
-            -
-          </ng-template>
+        </div>
+        <div class="email">
+          <label for="">Email</label>
+          <div>
+            {{ Patient.email ? Patient.email : "-" }}
+          </div>
+        </div>
+        <div class="address">
+          <label for="">Address</label>
+          <div>
+            <div *ngIf="Patient.address; else elseBlock">
+              {{ Patient.address }}, {{ Patient.city }}, {{ Patient.zipcode }}
+            </div>
+            <ng-template #elseBlock> - </ng-template>
+          </div>
+        </div>
+        <!-- <div>View more</div> -->
+      </div>
+
+      <div class="second-row">
+        <div class="aadhar_number">
+          <label for="">Aadhar No</label>
+          <div>
+            {{ Patient.aadhar_number ? Patient.aadhar_number : "-" }}
+          </div>
+        </div>
+        <div class="default_discount">
+          <label for="">Default Discount</label>
+          <div>
+            {{
+              Patient.discount_percentage
+                ? Patient.discount_percentage + "%"
+                : "-"
+            }}
+          </div>
         </div>
       </div>
-      <!-- <div>View more</div> -->
     </div>
 
-    <div class="second-row">
-      <div class="aadhar_number">
-        <label for="">Aadhar Number</label>
-        <div>
-          {{ Patient.aadhar_number ? Patient.aadhar_number : "-" }}
-        </div>
-      </div>
-      <div class="default_discount">
-        <label for="">Discount</label>
-        <div>
-          {{ Patient.discount_percentage }}
-        </div>
-      </div>
-    </div>
+    <div class="lisiting"></div>
   </div>
-</div>
+</ng-scrollbar>
 
 <!-- <div>{{ Patient.firstname }} {{ Patient.lastname }}</div>
 

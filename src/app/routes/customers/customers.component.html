@@ -2,152 +2,222 @@
 <div *ngFor="let item of Customers">
   <div>{{ item.firstname }} {{ item.lastname }}</div>
 </div> -->
-<div class="add-customer">
-  <button (click)="onAdd()">Add Customer</button>
-</div>
-<div class="lisiting-filters">
-  <div class="filters">
-    <div class="date">
-      <div class="date-filter">
-        <div>
-          <input
-            type="text"
-            ngxDaterangepickerMd
-            [(ngModel)]="selectedRange"
-            [ranges]="ranges"
-            placeholder="Choose date"
-            (ngModelChange)="onDateChange($event)"
-            [showCustomRangeLabel]="true"
-            [locale]="{ format: 'DD/MM/YYYY' }"
-          />
+<ng-scrollbar>
+  <div class="add-customer">
+    <button (click)="onAdd()">Add Customer</button>
+  </div>
+  <div class="lisiting-filters">
+    <div class="filters">
+      <div class="date">
+        <div class="date-filter">
+          <div class="date-filter-input">
+            <input
+              ngxDaterangepickerMd
+              [(ngModel)]="selectedRange"
+              [ranges]="ranges"
+              placeholder="Registration Date"
+              (ngModelChange)="onDateChange($event)"
+              [showCustomRangeLabel]="true"
+              [locale]="{ format: 'DD/MM/YYYY' }"
+            />
+            <i class="fas fa-times" (click)="onClearDateFilter()"></i>
+            <!-- <i class="fa fa-calendar"></i> -->
+          </div>
         </div>
       </div>
-    </div>
-    <div class="search">
-      <input
-        type="search"
-        id="searchstring"
-        name="searchstring"
-        #searchValue
-        placeholder="Name/Mobile/Address/Tag"
-        minlength="3"
-      />
-      <input type="submit" (click)="onSubmitSearch(searchValue.value)" />
-      <button type="submit" (click)="onCloseSearch(searchValue.value)">
-        close
-      </button>
-    </div>
-    <div class="customer_type">
-      <mat-select
-        [(ngModel)]="selectedCustomerType"
-        (ngModelChange)="(selectedCustomerType)"
-        name="selectedCustomerType"
-        placeholder="Customer Type"
-        multiple
-        (selectionChange)="onCustomerTypeChange($event)"
-      >
-        <mat-option
-          *ngFor="let customer of customers_type"
-          [value]="customer.value"
+      <div class="search">
+        <input
+          id="searchstring"
+          name="searchstring"
+          #searchValue
+          placeholder="Name/Mobile/Address/Tag(e.g 't,regular')"
+          minlength="3"
+          [(ngModel)]="searchstring"
+        />
+        <i
+          class="fas fa-search"
+          (click)="onSubmitSearch(searchValue.value)"
+        ></i>
+        <i class="fas fa-times" (click)="onCloseSearch(searchValue.value)"></i>
+      </div>
+      <div class="customer_type">
+        <mat-select
+          [(ngModel)]="selectedCustomerType"
+          (ngModelChange)="(selectedCustomerType)"
+          name="selectedCustomerType"
+          placeholder="Customer Type"
+          multiple
+          (selectionChange)="onCustomerTypeChange($event)"
         >
-          {{ customer.viewValue }}
-        </mat-option>
-      </mat-select>
+          <mat-option
+            *ngFor="let customer of customers_type"
+            [value]="customer.value"
+          >
+            {{ customer.viewValue }}
+          </mat-option>
+        </mat-select>
+      </div>
+      <div class="customer_status">
+        <mat-select
+          [(ngModel)]="status"
+          name="selectedCustomerStatus"
+          placeholder="Customer Status"
+          (selectionChange)="onCustomerTypeStatus($event)"
+        >
+          <mat-option value="all">All</mat-option>
+          <mat-option value="blocked">Blocked</mat-option>
+          <mat-option value="unblocked">Unblocked</mat-option>
+        </mat-select>
+      </div>
+      <mat-checkbox [(ngModel)]="show_statistics">Show Statistics</mat-checkbox>
+
+      <div class="applyFilter">
+        <div (click)="onApplyFilter()">Apply</div>
+      </div>
     </div>
-    <div class="customer_status">
-      <mat-select
-        [(ngModel)]="status"
-        name="selectedCustomerStatus"
-        placeholder="Customer Status"
-        (selectionChange)="onCustomerTypeStatus($event)"
-      >
-        <mat-option value="all">All</mat-option>
-        <mat-option value="blocked">Blocked</mat-option>
-        <mat-option value="unblocked">Unblocked</mat-option>
-      </mat-select>
-    </div>
+    <div class="listing">
+      <div class="loader" *ngIf="loader">Loading</div>
+      <table>
+        <tr>
+          <th class="first">Registration Date/Time</th>
+          <th (click)="sortTable('patient_name')">
+            Customer Name
+            <i
+              class="fa-solid"
+              [ngClass]="{
+                'fa-arrow-down-a-z': patientNameSortOrder === 'asc',
+                'fa-arrow-down-z-a': patientNameSortOrder === 'desc'
+              }"
+              [style.opacity]="
+                patientNameSortColumn === 'patient_name' ? '1' : '0.5'
+              "
+            ></i>
+          </th>
 
-    <div class="applyFilter">
-      <button (click)="onApplyFilter()">Apply filters</button>
-    </div>
-  </div>
-  <div class="listing">
-    <table>
-      <tr>
-        <th>Registration Date/Time</th>
-        <th (click)="sortTable('patient_name')">
-          Customer Name
-          <i
-            class="fa-solid"
-            [ngClass]="{
-              'fa-arrow-down-a-z': patientNameSortOrder === 'asc',
-              'fa-arrow-down-z-a': patientNameSortOrder === 'desc'
-            }"
-            [style.opacity]="
-              patientNameSortColumn === 'patient_name' ? '1' : '0.5'
-            "
-          ></i>
-        </th>
+          <th>Mobile No.</th>
 
-        <th>Mobile No.</th>
-
-        <th (click)="sortTable('last_order_date')">
-          Last Order Date/Time
-          <i
-            class="fa-solid"
-            [ngClass]="{
-              'fa-arrow-down-1-9': lastOrderDateSortOrder === 'asc',
-              'fa-arrow-down-9-0': lastOrderDateSortOrder === 'desc'
-            }"
-            [style.opacity]="
-              lastOrderDateSortColumn === 'last_order_date' ? '1' : '0.5'
-            "
-          ></i>
-        </th>
-
-        <th (click)="sortTable('due_orders_amount')">
-          Total Balance
-          <i
-            class="fa-solid"
-            [ngClass]="{
-              'fa-arrow-down-1-9': dueOrdersAmountSortOrder === 'asc',
-              'fa-arrow-down-9-0': dueOrdersAmountSortOrder === 'desc'
-            }"
-            [style.opacity]="
-              dueOrdersAmountSortColumn === 'due_orders_amount' ? '1' : '0.5'
-            "
-          ></i>
-        </th>
-        <th>Invite</th>
-      </tr>
-
-      <tbody>
-        <tr *ngFor="let customer of Customers" (click)="onUserSelect(customer)">
-          <td>{{ customer.registration_date | date : "dd-MM-yy hh:mm a" }}</td>
-          <td>{{ customer.patient_name }}</td>
-          <td>{{ customer.mobile }}</td>
-          <td>
-            {{ customer.last_order_date ? customer.last_order_date : "-" }}
-          </td>
-          <td>
-            {{ customer.balance | currency : "INR" }}
-          </td>
-          <!-- <td>{{ customer ? customer : "-" }}</td> -->
+          <th (click)="sortTable('last_order_date')">
+            Last Order Date/Time
+            <i
+              class="fa-solid"
+              [ngClass]="{
+                'fa-arrow-down-1-9': lastOrderDateSortOrder === 'asc',
+                'fa-arrow-down-9-1': lastOrderDateSortOrder === 'desc'
+              }"
+              [style.opacity]="
+                lastOrderDateSortColumn === 'last_order_date' ? '1' : '0.5'
+              "
+            ></i>
+          </th>
+          <th
+            (click)="sortTable('total_orders_count')"
+            *ngIf="show_statistics"
+            style="width: 100px"
+          >
+            Total Orders
+            <i
+              class="fa-solid"
+              [ngClass]="{
+                'fa-arrow-down-1-9': totalOrdersCountSortOrder === 'asc',
+                'fa-arrow-down-9-1': totalOrdersCountSortOrder === 'desc'
+              }"
+              [style.opacity]="
+                totalOrdersCountSortColumn === 'total_orders_count'
+                  ? '1'
+                  : '0.5'
+              "
+            ></i>
+          </th>
+          <th
+            *ngIf="show_statistics"
+            (click)="sortTable('total_orders_amount')"
+            style="width: 100px"
+          >
+            Total Amount
+            <i
+              class="fa-solid"
+              [ngClass]="{
+                'fa-arrow-down-1-9': totalOrdersAmountSortOrder === 'asc',
+                'fa-arrow-down-9-1': totalOrdersAmountSortOrder === 'desc'
+              }"
+              [style.opacity]="
+                totalOrdersAmountSortColumn === 'total_orders_amount'
+                  ? '1'
+                  : '0.5'
+              "
+            ></i>
+          </th>
+          <th
+            (click)="sortTable('due_orders_amount')"
+            class="amount-header"
+            style="width: 100px"
+          >
+            Total Balance
+            <i
+              class="fa-solid"
+              [ngClass]="{
+                'fa-arrow-down-1-9': dueOrdersAmountSortOrder === 'asc',
+                'fa-arrow-down-9-1': dueOrdersAmountSortOrder === 'desc'
+              }"
+              [style.opacity]="
+                dueOrdersAmountSortColumn === 'due_orders_amount' ? '1' : '0.5'
+              "
+            ></i>
+          </th>
+          <th>Invite</th>
         </tr>
-      </tbody>
-    </table>
-  </div>
-  <!-- <div>
-    No data
-    <img
-      src="https://d1tu4pmhr82np8.cloudfront.net/storage/extra/evitalrx/guide-line-assets/empty_image.svg"
-      alt=""
-    />
-  </div> -->
 
-  <div class="page">
-    <button *ngIf="page > 1" (click)="prev()">Prev</button>
-    <div>Page: {{ page }}</div>
-    <button *ngIf="Customers.length === 20" (click)="next()">Next</button>
+        <tbody>
+          <tr
+            *ngFor="let customer of Customers"
+            (click)="onUserSelect(customer)"
+          >
+            <td>
+              {{ customer.registration_date | date : "dd-MM-yy hh:mm a" }}
+            </td>
+            <td class="preferred">
+              {{ customer.patient_name }}
+              <span *ngIf="customer.preferred">
+                <div class="tooltip">
+                  &nbsp;P&nbsp;
+                  <span class="tooltiptext">Your Preferred Customer</span>
+                </div>
+              </span>
+            </td>
+            <td>{{ customer.mobile }}</td>
+            <td>
+              {{
+                customer.last_order_date
+                  ? (customer.last_order_date | date : "dd-MM-yy hh:mm a")
+                  : "-"
+              }}
+            </td>
+            <td class="amount" *ngIf="show_statistics">
+              {{ customer.total_orders_count }}
+            </td>
+            <td class="amount" *ngIf="show_statistics">
+              {{ customer.total_orders_amount | currency : "INR" }}
+            </td>
+            <td class="amount">
+              {{ customer.balance | currency : "INR" }}
+            </td>
+            <td class="invite"><i class="fab fa-whatsapp"></i></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- <div>
+      No data
+      <img
+        src="https://d1tu4pmhr82np8.cloudfront.net/storage/extra/evitalrx/guide-line-assets/empty_image.svg"
+        alt=""
+      />
+    </div> -->
+
+    <div class="page">
+      <button *ngIf="page > 1" (click)="prev()">Prev</button>
+      <div>Page: {{ page }}</div>
+      <button *ngIf="Customers.length === 20" (click)="next()">Next</button>
+    </div>
   </div>
-</div>
+</ng-scrollbar>

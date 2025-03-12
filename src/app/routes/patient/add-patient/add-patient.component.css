@@ -5,6 +5,8 @@
     border-radius: 0px;
     width: 50rem;
     background-color: white;
+   /*  max-height: 680px;
+    max-width: 640px !important; */
 }
 
 .header {
@@ -43,14 +45,20 @@
 }
 
 .submit {
-    padding: 5px;
-    padding-left: 20px;
-    padding-right: 20px;
-    border-radius: 5px;
     background-color: rgba(12, 161, 246, 1);
-    color: #fff;
-    border: none;
     cursor: pointer;
+    height: 30px;
+    border: 0;
+    border-radius: 2px;
+    padding: 0px 15px;
+    font-size: 14px;
+    color: #fff;
+    font-weight: 600;
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 70px;
 }
 
 .close {
@@ -76,7 +84,6 @@
     align-items: start;
     font-weight: 100;
     color: rgba(4, 76, 157, 1);
-    font: 500;
     font-size: 14px;
     color: rgba(4, 76, 157, 1);
     font-weight: 500;
@@ -85,12 +92,11 @@
 
 .input-label input {
     display: flex;
-    font-size: larger;
+    /* font-size: larger; */
     width: 10rem;
     border: none;
     outline: none;
-    padding: 5px;
-    font-size: 16px;
+    font-size: 14px;
     border-bottom: 2px solid rgba(7, 35, 245, 0.27);
 }
 
@@ -101,7 +107,11 @@
 
 .mobile-mail {
     display: flex;
-    gap: 20px;
+    gap: 40px;
+}
+
+.verify-mobile {
+    color: #0ca1f6;
 }
 
 .email input {
@@ -125,15 +135,15 @@
 .address-Link {
     margin-top: 10px;
     margin-bottom: 10px;
-    color: blue;
+    color: #0ca1f6;
     cursor: pointer;
     text-decoration: underline;
-    text-decoration-color: blue;
+    text-decoration-color: #0ca1f6;
 }
 
 .input-label-address input {
     width: 98%;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 .city-pincode {

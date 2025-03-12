@@ -13,10 +13,21 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { AddPatientComponent } from '../patient/add-patient/add-patient.component';
+
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatRadioModule } from '@angular/material/radio';
+import { NgScrollbarModule } from 'ngx-scrollbar';
 @Component({
   selector: 'app-customers',
   standalone: true,
-  imports: [CommonModule, NgxDaterangepickerMd, FormsModule, MatSelectModule],
+  imports: [
+    CommonModule,
+    NgxDaterangepickerMd,
+    FormsModule,
+    MatSelectModule,
+    MatCheckboxModule,
+    NgScrollbarModule
+  ],
   providers: [LocaleService, DatePipe],
   templateUrl: './customers.component.html',
   styleUrl: './customers.component.css',
@@ -56,6 +67,9 @@ export class CustomersComponent {
   // Page
   page = 1;
   //empty
+
+  show_statistics = false;
+
   constructor(
     private customers: CustomersService,
     private http: HttpClient,
@@ -80,7 +94,9 @@ export class CustomersComponent {
     };
   }
 
+  loader = false;
   customerListing() {
+    this.loader = true;
     const obj = {
       searchstring: this.searchstring,
       orderby: this.sortColumn,
@@ -92,11 +108,13 @@ export class CustomersComponent {
       not_registered: this.not_registered,
       status: this.status,
       page: this.page,
+      show_statistics: this.show_statistics ? 'yes' : 'no',
     };
 
     this.customers.listCustomers(obj).subscribe((res) => {
       this.Customers = res.data.results;
       console.log(this.Customers);
+      this.loader = false;
     });
   }
 
@@ -113,7 +131,14 @@ export class CustomersComponent {
 
   dueOrdersAmountSortColumn: string = '';
   dueOrdersAmountSortOrder: 'asc' | 'desc' = 'asc';
+
+  totalOrdersAmountSortColumn: string = '';
+  totalOrdersAmountSortOrder: 'asc' | 'desc' = 'asc';
+
+  totalOrdersCountSortColumn: string = '';
+  totalOrdersCountSortOrder: 'asc' | 'desc' = 'asc';
   sortTable(column: string) {
+    console.log(column);
     switch (column) {
       case 'patient_name':
         this.patientNameSortOrder =
@@ -149,6 +174,29 @@ export class CustomersComponent {
         this.dueOrdersAmountSortColumn = column;
         this.sortColumn = column;
         this.sortOrder = this.dueOrdersAmountSortOrder;
+        break;
+
+      case 'total_orders_amount':
+        this.totalOrdersAmountSortOrder =
+          this.totalOrdersAmountSortColumn === column
+            ? this.totalOrdersAmountSortOrder === 'asc'
+              ? 'desc'
+              : 'asc'
+            : 'asc';
+        this.totalOrdersAmountSortColumn = column;
+        this.sortColumn = column;
+        this.sortOrder = this.totalOrdersAmountSortOrder;
+        break;
+      case 'total_orders_count':
+        this.totalOrdersCountSortOrder =
+          this.totalOrdersCountSortColumn === column
+            ? this.totalOrdersCountSortOrder === 'asc'
+              ? 'desc'
+              : 'asc'
+            : 'asc';
+        this.totalOrdersCountSortColumn = column;
+        this.sortColumn = column;
+        this.sortOrder = this.totalOrdersCountSortOrder;
         break;
     }
     this.customerListing();
@@ -189,7 +237,6 @@ export class CustomersComponent {
     //this.customerListing();
   }
   onApplyFilter() {
-    console.log('Applying filters with:');
     this.customerListing();
   }
   onDateChange(event: any) {
@@ -231,5 +278,12 @@ export class CustomersComponent {
       this.page--;
       this.customerListing();
     }
+  }
+
+  onClearDateFilter() {
+    this.selectedRange = null;
+    this.formated_start_date = '';
+    this.formated_end_date = '';
+    this.customerListing();
   }
 }

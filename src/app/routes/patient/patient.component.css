@@ -1,12 +1,18 @@
+ng-scrollbar {
+    --scrollbar-thumb-color: rgba(4, 76, 156, 0.86);
+    --scrollbar-track-color: transparent;
+    --scrollbar-size: 8px;
+    --scrollbar-border-radius: 4px;
+}
+
 .main {
-    background-color: rgba(250, 235, 215, 0.36);
-    height: 100vh;
+    background-color: #dddddd;
+    /* height: 100vh; */
 }
 
 .navbar {
     display: flex;
-    justify-content: end;
-    align-items: end;
+    justify-content: space-between;
     padding: 20px;
 }
 
@@ -20,9 +26,21 @@
 
 .breadcrumbs {
     display: flex;
-    padding: 10px;
+    justify-content: start;
+    align-items: start;
     font-size: larger;
 }
+
+.edit-button {
+    display: flex;
+    justify-content: end;
+    align-items: end;
+}
+
+.bulb {
+    color: rgba(12, 161, 246, 1);
+}
+
 
 .first-row {
     display: flex;
@@ -42,4 +60,19 @@
 
 .second-row label {
     color: rgba(4, 76, 157, .6);
+}
+
+.lisiting {
+    margin: 20px;
+    background-color: white;
+    height: 100vh;
+}
+
+.mobile-verified {
+    display: flex;
+    gap: 10px;
+}
+
+.verified {
+    color: #0ca1f6;
 }
