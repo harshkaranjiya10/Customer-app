@@ -5,6 +5,10 @@ ng-scrollbar {
     --scrollbar-border-radius: 4px;
 }
 
+.main {
+    height: 100vh;
+}
+
 .lisiting-filters {
     margin: 20px;
     background-color: white;
@@ -49,6 +53,7 @@ table {
 
 td,
 th {
+    height: 100vh;
     border-bottom: 1px solid #00000053;
     border-top: 0px;
     border-right: 0px;
@@ -164,7 +169,7 @@ i.fa-arrow-down-1-9 {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: 70px;
+    max-width: 70px;
 }
 
 .preferred span {
@@ -240,4 +245,89 @@ i.fa-arrow-down-1-9 {
 .tooltip:hover .tooltiptext {
     visibility: visible;
     opacity: 1;
+}
+
+.open-btn {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+.right-sheet {
+    position: fixed;
+    top: 0;
+    right: -400px;
+    /*  */
+    width: 400px;
+    height: 100%;
+    background: white;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+    transition: right 0.3s ease-in-out;
+    z-index: 1000;
+}
+
+.right-sheet.open {
+    right: 0;
+}
+
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    color: white;
+}
+
+.content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+    gap: 20px;
+}
+
+.header {
+    background-color: #004C9D;
+    width: 100%;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    font-size: xx-large;
+    color: white;
+    padding: 5px;
+}
+
+.reset {
+    display: flex;
+    cursor: pointer;
+}
+
+.more-filter-button {
+    border: none;
+    background-color: transparent;
+    color: #004C9D;
+    font-size: medium;
+    cursor: pointer;
+    margin-left: 20px;
+}
+
+.fa-sliders-h {
+    margin-right: 10px;
 }

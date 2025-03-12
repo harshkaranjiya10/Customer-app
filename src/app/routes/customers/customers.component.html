@@ -1,8 +1,4 @@
-<!-- <p>customers works!</p>
-<div *ngFor="let item of Customers">
-  <div>{{ item.firstname }} {{ item.lastname }}</div>
-</div> -->
-<ng-scrollbar>
+<ng-scrollbar class="main">
   <div class="add-customer">
     <button (click)="onAdd()">Add Customer</button>
   </div>
@@ -40,39 +36,98 @@
         ></i>
         <i class="fas fa-times" (click)="onCloseSearch(searchValue.value)"></i>
       </div>
-      <div class="customer_type">
-        <mat-select
-          [(ngModel)]="selectedCustomerType"
-          (ngModelChange)="(selectedCustomerType)"
-          name="selectedCustomerType"
-          placeholder="Customer Type"
-          multiple
-          (selectionChange)="onCustomerTypeChange($event)"
-        >
-          <mat-option
-            *ngFor="let customer of customers_type"
-            [value]="customer.value"
+      <!-- <div class="more-filters">
+        <div class="more-filter-label" (click)="onMoreFilterClick()">
+          More Filter
+        </div>
+        <div class="right-sheet">
+          <div class="customer_type">
+            <mat-select
+              [(ngModel)]="selectedCustomerType"
+              (ngModelChange)="(selectedCustomerType)"
+              name="selectedCustomerType"
+              placeholder="Customer Type"
+              multiple
+              (selectionChange)="onCustomerTypeChange($event)"
+            >
+              <mat-option
+                *ngFor="let customer of customers_type"
+                [value]="customer.value"
+              >
+                {{ customer.viewValue }}
+              </mat-option>
+            </mat-select>
+          </div>
+          <div class="customer_status">
+            <mat-select
+              [(ngModel)]="status"
+              name="selectedCustomerStatus"
+              placeholder="Customer Status"
+              (selectionChange)="onCustomerTypeStatus($event)"
+            >
+              <mat-option value="all">All</mat-option>
+              <mat-option value="blocked">Blocked</mat-option>
+              <mat-option value="unblocked">Unblocked</mat-option>
+            </mat-select>
+          </div>
+          <mat-checkbox [(ngModel)]="show_statistics"
+            >Show Statistics</mat-checkbox
           >
-            {{ customer.viewValue }}
-          </mat-option>
-        </mat-select>
-      </div>
-      <div class="customer_status">
-        <mat-select
-          [(ngModel)]="status"
-          name="selectedCustomerStatus"
-          placeholder="Customer Status"
-          (selectionChange)="onCustomerTypeStatus($event)"
-        >
-          <mat-option value="all">All</mat-option>
-          <mat-option value="blocked">Blocked</mat-option>
-          <mat-option value="unblocked">Unblocked</mat-option>
-        </mat-select>
-      </div>
-      <mat-checkbox [(ngModel)]="show_statistics">Show Statistics</mat-checkbox>
+          <div class="applyFilter">
+            <div (click)="onApplyFilter()">Apply</div>
+          </div>
+        </div>
+      </div> -->
+      <!-- Open Button -->
+      <button class="more-filter-button" (click)="toggleSheet()">
+        <i class="fas fa-sliders-h"></i>More Filters
+      </button>
 
-      <div class="applyFilter">
-        <div (click)="onApplyFilter()">Apply</div>
+      <!-- Overlay -->
+      <div class="overlay" *ngIf="isOpen" (click)="toggleSheet()"></div>
+
+      <!-- Right-Side Sheet -->
+      <div class="right-sheet" [class.open]="isOpen">
+        <div class="header">More filters</div>
+        <div class="content">
+          <button class="close-btn" (click)="toggleSheet()">✖</button>
+          <div class="customer_type">
+            <mat-select
+              [(ngModel)]="selectedCustomerType"
+              (ngModelChange)="(selectedCustomerType)"
+              name="selectedCustomerType"
+              placeholder="Customer Type"
+              multiple
+              (selectionChange)="onCustomerTypeChange($event)"
+            >
+              <mat-option
+                *ngFor="let customer of customers_type"
+                [value]="customer.value"
+              >
+                {{ customer.viewValue }}
+              </mat-option>
+            </mat-select>
+          </div>
+          <div class="customer_status">
+            <mat-select
+              [(ngModel)]="status"
+              name="selectedCustomerStatus"
+              placeholder="Customer Status"
+              (selectionChange)="onCustomerTypeStatus($event)"
+            >
+              <mat-option value="all">All</mat-option>
+              <mat-option value="blocked">Blocked</mat-option>
+              <mat-option value="unblocked">Unblocked</mat-option>
+            </mat-select>
+          </div>
+          <mat-checkbox [(ngModel)]="show_statistics">
+            Show Statistics
+          </mat-checkbox>
+          <div (click)="onResetClick()" class="reset">Reset</div>
+          <div (click)="onApplyFilter()" class="applyFilter">
+            <div>Apply</div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="listing">

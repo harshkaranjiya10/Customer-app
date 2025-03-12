@@ -26,7 +26,7 @@ import { NgScrollbarModule } from 'ngx-scrollbar';
     FormsModule,
     MatSelectModule,
     MatCheckboxModule,
-    NgScrollbarModule
+    NgScrollbarModule,
   ],
   providers: [LocaleService, DatePipe],
   templateUrl: './customers.component.html',
@@ -218,7 +218,7 @@ export class CustomersComponent {
     if (event.value === 'unblocked') {
       this.status = 'active';
     }
-    this.customerListing();
+    //this.customerListing();
   }
   onCustomerTypeChange(event: any) {
     console.log(this.selectedCustomerType);
@@ -237,6 +237,7 @@ export class CustomersComponent {
     //this.customerListing();
   }
   onApplyFilter() {
+    this.toggleSheet();
     this.customerListing();
   }
   onDateChange(event: any) {
@@ -285,5 +286,24 @@ export class CustomersComponent {
     this.formated_start_date = '';
     this.formated_end_date = '';
     this.customerListing();
+  }
+  /* moreFilter = false;
+  onMoreFilterClick() {
+    this.moreFilter = !this.moreFilter;
+  } */
+
+  isOpen = false;
+
+  toggleSheet() {
+    this.isOpen = !this.isOpen;
+  }
+  onResetClick() {
+    this.due = 0;
+    this.preferred = 0;
+    this.not_registered = 0;
+    this.status = '';
+    this.show_statistics = false;
+    this.customerListing();
+    this.toggleSheet();
   }
 }
